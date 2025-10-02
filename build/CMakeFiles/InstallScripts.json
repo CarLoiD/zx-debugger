@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"C:/projects/zx-debugger/build/cmake_install.cmake",
-		"C:/projects/zx-debugger/build/client/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

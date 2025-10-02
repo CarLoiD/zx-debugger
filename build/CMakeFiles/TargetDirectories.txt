@@ -1,6 +1,0 @@
-C:/projects/zx-debugger/build/CMakeFiles/run.dir
-C:/projects/zx-debugger/build/CMakeFiles/edit_cache.dir
-C:/projects/zx-debugger/build/CMakeFiles/rebuild_cache.dir
-C:/projects/zx-debugger/build/client/CMakeFiles/zx-dbgclient.dir
-C:/projects/zx-debugger/build/client/CMakeFiles/edit_cache.dir
-C:/projects/zx-debugger/build/client/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,0 @@
-# ninja log v7
-27	684	7810915570613427	client/CMakeFiles/zx-dbgclient.dir/main.cpp.obj	f4db741ee8a06d2d
-689	936	7810915577233259	bin/zx-dbgclient.exe	2cc8996b4fa479b4
-936	1156	7810915579703855	CMakeFiles/run	7c54ef925ab99e76
-936	1156	7810915579703855	C:/projects/zx-debugger/build/CMakeFiles/run	7c54ef925ab99e76
