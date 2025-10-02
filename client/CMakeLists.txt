@@ -21,4 +21,8 @@ zx_cc_binary(
         dbgclient
     SRCS 
         "main.cpp"
+    IDIRS ${GTK3_INCLUDE_DIRS}
+    LDIRS ${GTK3_LIBRARY_DIRS}
+    LIBS  ${GTK3_LIBRARIES}
+    COPTS ${GTK3_CFLAGS_OTHER}
 )
