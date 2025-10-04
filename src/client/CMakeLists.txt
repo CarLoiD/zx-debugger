@@ -22,6 +22,7 @@ zx_cc_binary(
     SRCS 
         "main.cc"
         "ui/application.cc"
+        "ui/widget_utils.cc"
     IDIRS ${GTK3_INCLUDE_DIRS}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
