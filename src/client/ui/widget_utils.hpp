@@ -19,18 +19,31 @@
 #ifndef CLIENT_UI_WIDGET_UTILS_HPP_
 #define CLIENT_UI_WIDGET_UTILS_HPP_
 
-#include <string_view>
 #include <gtk/gtk.h>
-
 #include "base/types.hpp"
 
-void SetWidgetBgColor(GtkWidget* widget, const char* color_str);
-void SetWidgetMargin(GtkWidget* widget, int32_t margin);
-void SetWidgetMarginX(GtkWidget* widget, int32_t margin);
-void SetWidgetMarginY(GtkWidget* widget, int32_t margin);
-void SetWidgetTopLeftMargin(GtkWidget* widget, int32_t margin);
-void SetWidgetBottomRightMargin(GtkWidget* widget, int32_t margin);
-void WidgetEvalCSS(GtkWidget* context, const std::string_view expression);
-void GdkEvalCSS(const std::string_view expression);
+// TODO: Maybe later on a refactoring, a Widget class can be implemented
+// along with it's subclaassed like ButtonWidget, MenuWidget etc.
+
+namespace UI {
+
+struct MarginSelector {
+    enum Options : uint32_t {
+        kStart      = (1 << 0),
+        kEnd        = (1 << 1),
+        kTop        = (1 << 2),
+        kBottom     = (1 << 3),
+    };
+};
+
+void SetWidgetBgColor(GtkWidget* ptr, std::string_view color_str);
+void SetWidgetMargin(GtkWidget* ptr, int margin);
+void SetWidgetMargin(GtkWidget* ptr, int margin, MarginSelector::Options& flags);
+void SetWidgetMarginX(GtkWidget* ptr, int margin);
+void SetWidgetMarginY(GtkWidget* ptr, int margin);
+void EvalCSS(GtkWidget* context, std::string_view expression);
+void GdkEvalCSS(std::string_view expression);
+
+} // namespace UI
 
 #endif // CLIENT_UI_WIDGET_UTILS_HPP_

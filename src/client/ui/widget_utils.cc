@@ -13,18 +13,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: types.h
-// ---------------------------------------------------------------------------
-// Shared types that are commonly used all over the project
+// File: widget_utils.cc
 // ---------------------------------------------------------------------------
 
-#ifndef BASE_TYPES_HPP_
-#define BASE_TYPES_HPP_
+namespace UI {
 
-// uint32_t, int8_t, etc.
-#include <cstdint>
+void SetWidgetBgColor(GtkWidget* ptr, std::string_view color_str) {
+    GdkRGBA color;
+    gdk_rgba_parse(&color, color_str.data());
 
-// To avoid using const char* around
-#include <string_view>
+    // TODO: afaik this is deprecated in favor of CSS styling
+    gtk_ptr_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
+}
 
-#endif // BASE_TYPES_HPP_
+void SetWidgetMargin(GtkWidget* ptr, int margin) {
+    gtk_ptr_set_margin_start(widget, margin);
+    gtk_ptr_set_margin_end(widget, margin);
+    gtk_ptr_set_margin_top(widget, margin);
+    gtk_ptr_set_margin_bottom(widget, margin);
+}
+
+void SetWidgetMargin(GtkWidget* ptr, )
+
+void SetWidgetMarginX(GtkWidget* ptr, int margin) {
+    gtk_ptr_set_margin_start(widget, margin);
+    gtk_ptr_set_margin_end(widget, margin);
+}
+
+
+} // namespace UI
