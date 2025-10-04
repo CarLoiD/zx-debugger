@@ -16,11 +16,8 @@
 // File: main.cpp
 // ---------------------------------------------------------------------------
 
-#include <iostream>
-
-#include "base/types.h"
+#include "ui/application.hpp"
 
 int main(int argc, char* argv[]) {
-    std::cout << "Hello, World! from C++17\n";
     return 0;
 }

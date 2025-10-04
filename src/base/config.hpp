@@ -13,12 +13,18 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: types.h
+// File: config.hpp
+// ---------------------------------------------------------------------------
+// Brief: Macros for general pre-processed configuration
 // ---------------------------------------------------------------------------
 
-#ifndef BASE_TYPES_H_
-#define BASE_TYPES_H_
+#ifndef BASE_CONFIG_HPP_
+#define BASE_CONFIG_HPP_
 
-#include <cstdint>
+#ifdef ZX_CONFIG_TOOLCHAIN_GCC
+ #error ZX_CONFIG_TOOLCHAIN_GCC cannot be set manually
+#elif defined(__GNUC__) && !defined(__clang__)
+ #define ZX_CONFIG_TOOLCHAIN_GCC 1
+#endif
 
-#endif // BASE_TYPES_H_
+#endif // BASE_CONFIG_HPP_
