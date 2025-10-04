@@ -15,9 +15,8 @@
 # ---------------------------------------------------------------------------
 # File: target_macros.cmake
 # ---------------------------------------------------------------------------
-# Brief: Generalized macros inspired by abseil-cpp helpers to simplify
+# Generalized macros inspired by abseil-cpp helpers to simplify
 # library and executable compilation.
-# ---------------------------------------------------------------------------
 
 include(CMakeParseArguments)
 
@@ -93,8 +92,9 @@ endfunction()
 
 function(zx_add_run TARGET_ALIAS)
     add_custom_target(run
+        USES_TERMINAL
+        COMMAND echo "Running target (${TARGET_ALIAS})"
         COMMAND $<TARGET_FILE:${TARGET_ALIAS}>
         DEPENDS zx::dbgclient
-        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-        COMMENT "Running target (${TARGET_ALIAS})")
+        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 endfunction()

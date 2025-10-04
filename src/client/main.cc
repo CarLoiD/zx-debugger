@@ -19,5 +19,6 @@
 #include "ui/application.hpp"
 
 int main(int argc, char* argv[]) {
-    return 0;
+    UI::Application app(argc, argv);
+    return app.Run();
 }

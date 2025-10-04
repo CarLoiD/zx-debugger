@@ -15,8 +15,7 @@
 // ---------------------------------------------------------------------------
 // File: config.hpp
 // ---------------------------------------------------------------------------
-// Brief: Macros for general pre-processed configuration
-// ---------------------------------------------------------------------------
+// Macros for general pre-processed configuration
 
 #ifndef BASE_CONFIG_HPP_
 #define BASE_CONFIG_HPP_

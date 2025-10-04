@@ -20,5 +20,36 @@
 #define CLIENT_UI_APPLICATION_HPP_
 
 #include <gtk/gtk.h>
+#include "base/types.hpp"
+
+namespace UI {
+
+class Application final {
+private:
+    void SetupWindow();
+    void SetupMenuBar();
+    void SetupArea();
+    void SetupStatusBar();
+
+public:
+    Application() = delete;
+    Application(int argc, char* argv[]);
+    ~Application();
+
+    int Run();
+    void SetupUI();
+
+private:
+    GtkApplication* m_app;
+    GtkWidget* m_vbox;
+    GtkWidget* m_area;
+    GtkWidget* m_window;
+
+    // Saved program arguments
+    int m_argc;
+    char** m_argv;
+};
+
+} // namespace UI
 
 #endif // CLIENT_UI_APPLICATION_HPP_

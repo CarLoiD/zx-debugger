@@ -13,12 +13,24 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: types.h
+// File: widget_utils.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef BASE_TYPES_HPP_
-#define BASE_TYPES_HPP_
+#ifndef CLIENT_UI_WIDGET_UTILS_HPP_
+#define CLIENT_UI_WIDGET_UTILS_HPP_
 
-#include <cstdint>
+#include <string_view>
+#include <gtk/gtk.h>
 
-#endif // BASE_TYPES_HPP_
+#include "base/types.hpp"
+
+void SetWidgetBgColor(GtkWidget* widget, const char* color_str);
+void SetWidgetMargin(GtkWidget* widget, int32_t margin);
+void SetWidgetMarginX(GtkWidget* widget, int32_t margin);
+void SetWidgetMarginY(GtkWidget* widget, int32_t margin);
+void SetWidgetTopLeftMargin(GtkWidget* widget, int32_t margin);
+void SetWidgetBottomRightMargin(GtkWidget* widget, int32_t margin);
+void WidgetEvalCSS(GtkWidget* context, const std::string_view expression);
+void GdkEvalCSS(const std::string_view expression);
+
+#endif // CLIENT_UI_WIDGET_UTILS_HPP_

@@ -20,7 +20,8 @@ zx_cc_binary(
     NAME 
         dbgclient
     SRCS 
-        "main.cpp"
+        "main.cc"
+        "ui/application.cc"
     IDIRS ${GTK3_INCLUDE_DIRS}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
