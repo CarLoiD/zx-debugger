@@ -1,0 +1,63 @@
+// ---------------------------------------------------------------------------
+//   Copyright 2025 Carlos Gurgel
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+// ---------------------------------------------------------------------------
+// File: widget.cc
+// ---------------------------------------------------------------------------
+
+#include "ui/widget.hpp"
+
+namespace UI {
+
+void Widget::SetBackgroundColor(Color& color) {
+    ASSERT_PTR(m_handle);
+
+    GdkRGBA c;
+    c.red   = static_cast<float>(color.r) / 255.0f;
+    c.green = static_cast<float>(color.g) / 255.0f;
+    c.blue  = static_cast<float>(color.b) / 255.0f;
+    c.alpha = static_cast<float>(color.a) / 255.0f;
+    
+    gtk_widget_override_background_color(m_handle, GTK_STATE_FLAG_NORMAL, &c);
+}
+
+void Widget::SetMarginX(int offset) {
+    ASSERT_PTR(m_handle);
+
+    gtk_widget_set_margin_start(m_handle, offset);
+    gtk_widget_set_margin_end(m_handle, offset);
+}
+
+void Widget::SetMarginY(int offset) {
+    ASSERT_PTR(m_handle);
+
+    gtk_widget_set_margin_top(m_handle, offset);
+    gtk_widget_set_margin_bottom(m_handle, offset);
+}
+
+void Widget::SetMargin(const MarginMask::Options mask, int offset) {
+    ASSERT_PTR(m_handle);
+
+    if (mask & Widget::MarginMask::kStart)  gtk_widget_set_margin_start(m_handle, offset);
+    if (mask & Widget::MarginMask::kEnd)    gtk_widget_set_margin_end(m_handle, offset);
+    if (mask & Widget::MarginMask::kTop)    gtk_widget_set_margin_top(m_handle, offset);
+    if (mask & Widget::MarginMask::kBottom) gtk_widget_set_margin_bottom(m_handle, offset);
+}
+
+void Widget::SetMargin(int offset) {
+    SetMarginX(offset);
+    SetMarginY(offset);
+}
+
+} // namespace UI

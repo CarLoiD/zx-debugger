@@ -13,37 +13,50 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: widget_utils.hpp
+// File: widget.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_UI_WIDGET_UTILS_HPP_
-#define CLIENT_UI_WIDGET_UTILS_HPP_
+#ifndef CLIENT_UI_WIDGET_HPP_
+#define CLIENT_UI_WIDGET_HPP_
 
-#include <gtk/gtk.h>
+#include <gtk/gtk.h> 
 #include "base/types.hpp"
-
-// TODO: Maybe later on a refactoring, a Widget class can be implemented
-// along with it's subclaassed like ButtonWidget, MenuWidget etc.
 
 namespace UI {
 
-struct MarginSelector {
-    enum Options : uint32_t {
-        kStart      = (1 << 0),
-        kEnd        = (1 << 1),
-        kTop        = (1 << 2),
-        kBottom     = (1 << 3),
+class Widget {
+public:
+    struct MarginMask {
+        enum Options : uint32_t {
+            kStart      = (1 << 0),
+            kEnd        = (1 << 1),
+            kTop        = (1 << 2),
+            kBottom     = (1 << 3),
+        };
     };
-};
 
-void SetWidgetBgColor(GtkWidget* ptr, std::string_view color_str);
-void SetWidgetMargin(GtkWidget* ptr, int margin);
-void SetWidgetMargin(GtkWidget* ptr, int margin, MarginSelector::Options& flags);
-void SetWidgetMarginX(GtkWidget* ptr, int margin);
-void SetWidgetMarginY(GtkWidget* ptr, int margin);
-void EvalCSS(GtkWidget* context, std::string_view expression);
-void GdkEvalCSS(std::string_view expression);
+    struct Color {
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
+    };
+
+public:
+    virtual ~Widget() {}
+    
+    void SetBackgroundColor(Color& color);
+    void SetMarginX(int offset);
+    void SetMarginY(int offset);
+    void SetMargin(const MarginMask::Options mask, int offset);
+    void SetMargin(int offset);
+
+    GtkWidget* GetHandle() const { return m_handle; }
+
+protected:
+    GtkWidget* m_handle;
+};
 
 } // namespace UI
 
-#endif // CLIENT_UI_WIDGET_UTILS_HPP_
+#endif // CLIENT_UI_WIDGET_HPP_

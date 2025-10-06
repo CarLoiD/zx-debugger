@@ -17,6 +17,7 @@
 // ---------------------------------------------------------------------------
 
 #include "ui/application.hpp"
+#include "base/assert.hpp"
 
 int main(int argc, char* argv[]) {
     UI::Application app(argc, argv);

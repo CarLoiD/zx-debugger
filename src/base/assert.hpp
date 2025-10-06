@@ -13,32 +13,23 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: widget_utils.cc
+// File: assert.hpp
 // ---------------------------------------------------------------------------
 
-namespace UI {
+#ifndef BASE_ASSERT_HPP_
+#define BASE_ASSERT_HPP_
 
-void SetWidgetBgColor(GtkWidget* ptr, std::string_view color_str) {
-    GdkRGBA color;
-    gdk_rgba_parse(&color, color_str.data());
+#include "base/types.hpp"
 
-    // TODO: afaik this is deprecated in favor of CSS styling
-    gtk_ptr_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
-}
+#ifdef NDEBUG
+ #define ASSERT(condition, msg) 
+ #define ASSERT_PTR(ptr) 
+#else
+ #define ASSERT(condition, msg) __InternalAssert(condition, msg, __FILE__, __LINE__, __func__)
+ #define ASSERT_PTR(ptr) __InternalAssertPtr(ptr, __FILE__, __LINE__, __func__)
 
-void SetWidgetMargin(GtkWidget* ptr, int margin) {
-    gtk_ptr_set_margin_start(widget, margin);
-    gtk_ptr_set_margin_end(widget, margin);
-    gtk_ptr_set_margin_top(widget, margin);
-    gtk_ptr_set_margin_bottom(widget, margin);
-}
+ void __InternalAssert(bool condition, std::string_view msg, const char* fl, int ln, const char* f);
+ void __InternalAssertPtr(const void* ptr, const char* fl, int ln, const char* f);
+#endif
 
-void SetWidgetMargin(GtkWidget* ptr, )
-
-void SetWidgetMarginX(GtkWidget* ptr, int margin) {
-    gtk_ptr_set_margin_start(widget, margin);
-    gtk_ptr_set_margin_end(widget, margin);
-}
-
-
-} // namespace UI
+#endif // BASE_ASSERT_HPP_

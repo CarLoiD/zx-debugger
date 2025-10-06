@@ -22,6 +22,7 @@
 #define BASE_TYPES_HPP_
 
 // uint32_t, int8_t, etc.
+#include <cstddef>
 #include <cstdint>
 
 // To avoid using const char* around

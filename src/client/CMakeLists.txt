@@ -20,10 +20,11 @@ zx_cc_binary(
     NAME 
         dbgclient
     SRCS 
+        "../base/assert.cc"
         "main.cc"
         "ui/application.cc"
-        "ui/widget_utils.cc"
-    IDIRS ${GTK3_INCLUDE_DIRS}
+        "ui/widget.cc"
+    IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
     COPTS ${GTK3_CFLAGS_OTHER}
