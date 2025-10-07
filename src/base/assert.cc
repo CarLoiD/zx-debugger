@@ -36,11 +36,8 @@ static void MessageError(std::string_view msg, const char* fl, int ln, const cha
     }
 
     std::stringstream err_msg;
-    err_msg << path;
-    err_msg << ':';
-    err_msg << ln;
-    err_msg << " \'";
-    err_msg << f << "()\': Assertion Failed! (";
+    err_msg << path << ':' << ln;
+    err_msg << " \'" << f << "()\': Assertion Failed! (";
     err_msg << msg.data() << ")\n";
 
     msg = err_msg.str();
