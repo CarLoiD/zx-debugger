@@ -13,13 +13,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main.cpp
+// File: color.hpp
 // ---------------------------------------------------------------------------
 
-#include "main_window.hpp"
+#ifndef LIBGUI_COLOR_HPP_
+#define LIBGUI_COLOR_HPP_
 
-int main(int argc, char* argv[]) {
-    UI::Application app(argc, argv);
-    MainWindow wnd;
-    return app.Run(wnd);
-}
+#include "base/types.hpp"
+
+typedef struct _GdkRGBA GdkRGBA;
+
+namespace UI {
+
+struct Color {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t a;
+    
+    Color();
+    Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+    Color(uint32_t wcolor);
+
+    GdkRGBA   GetGdkColor() const;
+    uint32_t  GetWordColor() const;
+};
+
+} // namespace UI
+
+#endif // LIBGUI_COLOR_HPP_

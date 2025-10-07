@@ -13,13 +13,17 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main.cpp
+// File: include.hpp
 // ---------------------------------------------------------------------------
 
-#include "main_window.hpp"
+#ifndef LIBGUI_INCLUDE_HPP_
+#define LIBGUI_INCLUDE_HPP_
 
-int main(int argc, char* argv[]) {
-    UI::Application app(argc, argv);
-    MainWindow wnd;
-    return app.Run(wnd);
-}
+// base
+#include "base/assert.hpp"
+
+// libgui
+#include "window.hpp"
+#include "application.hpp"
+
+#endif // LIBGUI_INCLUDE_HPP_

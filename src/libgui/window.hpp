@@ -13,13 +13,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main.cpp
+// File: window.hpp
 // ---------------------------------------------------------------------------
 
-#include "main_window.hpp"
+#ifndef LIBGUI_WINDOW_HPP_
+#define LIBGUI_WINDOW_HPP_
 
-int main(int argc, char* argv[]) {
-    UI::Application app(argc, argv);
-    MainWindow wnd;
-    return app.Run(wnd);
-}
+#include "widget.hpp"
+
+namespace UI {
+
+class Window : public Widget {
+public:
+    Window();
+    ~Window();
+
+    void SetTitle(std::string_view new_title);
+    void Resize(int new_width, int new_height);
+    void ShowAll();
+
+    // A GTK3 Window can have a single child widget bound on it's container
+    void Add(Widget& child) override;
+
+private:
+    GtkWindow* m_wnd;
+};
+
+} // namespace UI
+
+#endif // LIBGUI_WINDOW_HPP_

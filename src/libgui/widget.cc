@@ -16,19 +16,26 @@
 // File: widget.cc
 // ---------------------------------------------------------------------------
 
-#include "ui/widget.hpp"
+#include "widget.hpp"
+#include "base/assert.hpp"
 
 namespace UI {
 
-void Widget::SetBackgroundColor(Color& color) {
+Widget::~Widget() {
+    if (m_handle) {
+        g_object_unref(G_OBJECT(m_handle));
+        m_handle = nullptr;
+    }
+}
+
+void Widget::Add(Widget& child) {
+    ASSERT(false, "Unsupported Widget::Add() operation");
+}
+
+void Widget::SetBackgroundColor(const Color& color) {
     ASSERT_PTR(m_handle);
 
-    GdkRGBA c;
-    c.red   = static_cast<float>(color.r) / 255.0f;
-    c.green = static_cast<float>(color.g) / 255.0f;
-    c.blue  = static_cast<float>(color.b) / 255.0f;
-    c.alpha = static_cast<float>(color.a) / 255.0f;
-    
+    GdkRGBA c = color.GetGdkColor(); 
     gtk_widget_override_background_color(m_handle, GTK_STATE_FLAG_NORMAL, &c);
 }
 
@@ -46,7 +53,7 @@ void Widget::SetMarginY(int offset) {
     gtk_widget_set_margin_bottom(m_handle, offset);
 }
 
-void Widget::SetMargin(const MarginMask::Options mask, int offset) {
+void Widget::SetMargin(const MarginMask::Options& mask, int offset) {
     ASSERT_PTR(m_handle);
 
     if (mask & Widget::MarginMask::kStart)  gtk_widget_set_margin_start(m_handle, offset);
@@ -58,6 +65,13 @@ void Widget::SetMargin(const MarginMask::Options mask, int offset) {
 void Widget::SetMargin(int offset) {
     SetMarginX(offset);
     SetMarginY(offset);
+}
+
+void Widget::SetExpand(bool h_expand, bool v_expand) {
+    ASSERT_PTR(m_handle);
+
+    gtk_widget_set_hexpand(m_handle, h_expand);
+    gtk_widget_set_vexpand(m_handle, v_expand);
 }
 
 } // namespace UI

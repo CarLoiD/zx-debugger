@@ -13,43 +13,19 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: application.hpp
+// File: main_window.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_UI_APPLICATION_HPP_
-#define CLIENT_UI_APPLICATION_HPP_
+#ifndef CLIENT_MAIN_WINDOW_HPP_
+#define CLIENT_MAIN_WINDOW_HPP_
 
-#include <gtk/gtk.h>
-#include "base/types.hpp"
+#include "libgui/include.hpp"
 
-namespace UI {
-
-class Application final {
-private:
-    void SetupWindow();
-    void SetupMenuBar();
-    void SetupArea();
-    void SetupStatusBar();
-
+class MainWindow : public UI::Window {
 public:
-    Application() = delete;
-    Application(int argc, char* argv[]);
-    ~Application();
-
-    int Run();
-    void SetupUI();
-
-private:
-    GtkApplication* m_app;
-    GtkWidget* m_vbox;
-    GtkWidget* m_area;
-    GtkWidget* m_window;
-
-    // Saved program arguments
-    int m_argc;
-    char** m_argv;
+    MainWindow() {
+        Resize(1280, 720);
+    }
 };
 
-} // namespace UI
-
-#endif // CLIENT_UI_APPLICATION_HPP_
+#endif // CLIENT_MAIN_WINDOW_HPP_

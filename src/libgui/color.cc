@@ -13,13 +13,41 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main.cpp
+// File: color.cc
 // ---------------------------------------------------------------------------
 
-#include "main_window.hpp"
+#include "color.hpp"
 
-int main(int argc, char* argv[]) {
-    UI::Application app(argc, argv);
-    MainWindow wnd;
-    return app.Run(wnd);
+#include <gtk/gtk.h>
+
+namespace UI {
+
+Color::Color()
+    : r(0), g(0), b(0), a(255)
+{}
+
+Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+    this->a = a;
 }
+
+Color::Color(uint32_t wcolor) {
+    // TBD
+}
+
+GdkRGBA Color::GetGdkColor() const {
+    GdkRGBA c;
+    c.red   = static_cast<float>(r) / 255.0f;
+    c.green = static_cast<float>(g) / 255.0f;
+    c.blue  = static_cast<float>(b) / 255.0f;
+    c.alpha = static_cast<float>(a) / 255.0f;
+    return c;
+}
+
+uint32_t Color::GetWordColor() const {
+    return 0;
+}
+
+} // namespace UI

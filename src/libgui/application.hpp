@@ -13,50 +13,37 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: widget.hpp
+// File: application.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_UI_WIDGET_HPP_
-#define CLIENT_UI_WIDGET_HPP_
+#ifndef CLIENT_UI_APPLICATION_HPP_
+#define CLIENT_UI_APPLICATION_HPP_
 
-#include <gtk/gtk.h> 
-#include "base/types.hpp"
+#include <gtk/gtk.h>
 
 namespace UI {
 
-class Widget {
-public:
-    struct MarginMask {
-        enum Options : uint32_t {
-            kStart      = (1 << 0),
-            kEnd        = (1 << 1),
-            kTop        = (1 << 2),
-            kBottom     = (1 << 3),
-        };
-    };
+class Window;
 
-    struct Color {
-        uint8_t r;
-        uint8_t g;
-        uint8_t b;
-        uint8_t a;
-    };
+class Application final {
+public:
+    static GtkApplication* GetDefault();
 
 public:
-    virtual ~Widget() {}
-    
-    void SetBackgroundColor(Color& color);
-    void SetMarginX(int offset);
-    void SetMarginY(int offset);
-    void SetMargin(const MarginMask::Options mask, int offset);
-    void SetMargin(int offset);
+    Application() = delete;
+    Application(int argc, char* argv[]);
+    ~Application();
 
-    GtkWidget* GetHandle() const { return m_handle; }
+    int Run(UI::Window& window);
 
-protected:
-    GtkWidget* m_handle;
+private:
+    GtkApplication* m_app;
+
+    // Saved program arguments
+    int m_argc;
+    char** m_argv;
 };
 
 } // namespace UI
 
-#endif // CLIENT_UI_WIDGET_HPP_
+#endif // CLIENT_UI_APPLICATION_HPP_
