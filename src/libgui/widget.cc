@@ -21,6 +21,15 @@
 
 namespace UI {
 
+Widget::Widget()
+    : m_handle(nullptr)
+{}
+
+Widget::Widget(GtkWidget* handle) {
+    m_handle = handle;
+    g_object_ref_sink(m_handle);
+}
+
 Widget::~Widget() {
     if (m_handle) {
         g_object_unref(G_OBJECT(m_handle));
@@ -72,6 +81,11 @@ void Widget::SetExpand(const bool h_expand, const bool v_expand) {
 
     gtk_widget_set_hexpand(m_handle, h_expand);
     gtk_widget_set_vexpand(m_handle, v_expand);
+}
+
+void Widget::RequestSize(const s32 req_width, const s32 req_height) {
+    ASSERT_PTR(m_handle);
+    gtk_widget_set_size_request(m_handle, req_widt, req_height);
 }
 
 void Widget::SetVisible(const bool visible) {

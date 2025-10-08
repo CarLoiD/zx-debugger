@@ -34,7 +34,7 @@ public:
     Application(int argc, char* argv[], const bool dark_theme = true);
     ~Application();
 
-    int Run(UI::Window& window);
+    int Run(Window& window);
 
 private:
     GtkApplication* m_app;

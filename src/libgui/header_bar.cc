@@ -13,59 +13,43 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: window.cc
+// File: header_bar.cc
 // ---------------------------------------------------------------------------
 
-#include "window.hpp"
-#include "application.hpp"
 #include "header_bar.hpp"
 #include "base/assert.hpp"
 
 namespace UI {
 
-Window::Window() {
-    GtkApplication* app = Application::GetDefault();
-    ASSERT_PTR(app);
-
-    m_handle = gtk_application_window_new(app);
+HeaderBar::HeaderBar() {
+    m_handle = gtk_header_bar_new();
     g_object_ref_sink(m_handle);
 
-    m_wnd = GTK_WINDOW(m_handle);
-    Resize(300, 200);
+    m_header_bar = GTK_HEADER_BAR(m_handle);
+
+    // Default behavior is to have a functional close button on the header bar
+    // Also without vertical margins
+    SetShowCloseButton(true);
+    SetMarginY(0);
 }
 
-Window::~Window() {}
+HeaderBar::~HeaderBar() {}
 
-void Window::SetHeaderBar(HeaderBar& bar) {
-    ASSERT_PTR(m_wnd);
-    gtk_window_set_titlebar(m_wnd, bar.GetHandle());
+void HeaderBar::SetShowCloseButton(const bool show) {
+    ASSERT_PTR(m_header_bar);
+    gtk_header_bar_set_show_close_button(m_header_bar, show);
 }
 
-void Window::SetTitle(std::string_view new_title) {
-    ASSERT_PTR(m_wnd);
-    gtk_window_set_title(m_wnd, new_title.data());
+void HeaderBar::SetTitle(std::string_view title) {
+    ASSERT_PTR(m_header_bar);
+    gtk_header_bar_set_title(m_header_bar, title.data());
 }
 
-void Window::Resize(int new_width, int new_height) {
-    ASSERT_PTR(m_wnd);
-    gtk_window_set_default_size(m_wnd, new_width, new_height);
-}
-
-void Window::Close() {
-    ASSERT_PTR(m_wnd);
-    gtk_window_close(m_wnd);
-}
-
-void Window::ShowAll() {
-    ASSERT_PTR(m_handle);
-    gtk_widget_show_all(m_handle);
-}
-
-void Window::Add(Widget& child) {
-    ASSERT_PTR(m_handle);
+void HeaderBar::Add(Widget& child) {
+    ASSERT_PTR(m_header_bar);
     ASSERT_PTR(child.GetHandle());
 
-    gtk_container_add(GTK_CONTAINER(m_handle), child.GetHandle());
+    gtk_header_bar_pack_start(m_header_bar, child.GetHandle());
 }
 
 } // namespace UI

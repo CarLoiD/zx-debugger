@@ -22,11 +22,13 @@ zx_cc_binary(
     SRCS 
         "../base/assert.cc"
         "../libgui/application.cc"
-        "../libgui/color.cc"
-        "../libgui/window.cc"
         "../libgui/button.cc"
+        "../libgui/color.cc"
+        "../libgui/header_bar.cc"
         "../libgui/widget.cc"
+        "../libgui/window.cc"
         "main.cc"
+        "main_window.cc"
     IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}

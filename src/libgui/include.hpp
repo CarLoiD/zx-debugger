@@ -23,8 +23,9 @@
 #include "base/assert.hpp"
 
 // libgui
-#include "window.hpp"
-#include "button.hpp"
 #include "application.hpp"
+#include "button.hpp"
+#include "header_bar.hpp"
+#include "window.hpp"
 
 #endif // LIBGUI_INCLUDE_HPP_

@@ -31,7 +31,7 @@ public:
     // Pointer to member function (method) version
     template <typename T>
     void SetOnClickCallback(T* instance, void (T::*method)()) {
-        // The callback need some non local scope data in order to call the method later
+        // The callback need non scoped data in order to call the method later
         struct Data {
             T* instance;
             void (T::*method)();
@@ -42,7 +42,7 @@ public:
         udata->instance = instance;
         udata->method = method;
 
-        // Pass as data and set a closure to delete the data when the widget is destroyed
+        // Pass data and set closure to delete the data when widget is destroyed
         g_signal_connect_data(
             GetGtkWidget(),
             "clicked",

@@ -23,10 +23,15 @@
 
 namespace UI {
 
+class HeaderBar;
+
 class Window : public Widget {
 public:
     Window();
     ~Window();
+
+    // Used to customize the default header bar to contain menus, icons, entries etc.
+    void SetHeaderBar(HeaderBar& bar);
 
     void SetTitle(std::string_view new_title);
     void Resize(int new_width, int new_height);

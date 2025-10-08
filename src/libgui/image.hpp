@@ -13,20 +13,26 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main_window.hpp
+// File: image.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_MAIN_WINDOW_HPP_
-#define CLIENT_MAIN_WINDOW_HPP_
+#ifndef LIBGUI_IMAGE_HPP_
+#define LIBGUI_IMAGE_HPP_
 
-#include "libgui/include.hpp"
+#include "widget.hpp"
 
-class MainWindow : public UI::Window {
-private:
-    void SetupHeaderBar();
+namespace UI {
 
+class Image : public Widget {
 public:
-    MainWindow();
+    Image();
+    Image(std::string_view file_path, s32 req_width = -1, s32 req_height = -1);
+    ~Image();
+
+private:
+    GtkImage* m_image;
 };
 
-#endif // CLIENT_MAIN_WINDOW_HPP_
+} // namespace UI
+
+#endif // LIBGUI_IMAGE_HPP_

@@ -26,17 +26,17 @@ typedef struct _GdkRGBA GdkRGBA;
 namespace UI {
 
 struct Color {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-    uint8_t a;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
     
     Color();
-    Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
-    Color(uint32_t wcolor);
+    Color(u8 r, u8 g, u8 b, u8 a = 255);
+    Color(u32 wcolor);
 
-    GdkRGBA   GetGdkColor() const;
-    uint32_t  GetWordColor() const;
+    GdkRGBA GetGdkColor() const;
+    u32 GetWordColor() const;
 };
 
 } // namespace UI

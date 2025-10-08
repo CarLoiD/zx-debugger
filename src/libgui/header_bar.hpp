@@ -13,20 +13,30 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main_window.hpp
+// File: header_bar.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_MAIN_WINDOW_HPP_
-#define CLIENT_MAIN_WINDOW_HPP_
+#ifndef LIBGUI_HEADER_BAR_HPP_
+#define LIBGUI_HEADER_BAR_HPP_
 
-#include "libgui/include.hpp"
+#include "widget.hpp"
 
-class MainWindow : public UI::Window {
-private:
-    void SetupHeaderBar();
+namespace UI {
 
+class HeaderBar : public Widget {
 public:
-    MainWindow();
+    HeaderBar();
+    ~HeaderBar();
+
+    void SetShowCloseButton(const bool show);
+    void SetTitle(std::string_view title);
+
+    void Add(Widget& child) override;
+
+private:
+    GtkHeaderBar* m_header_bar;
 };
 
-#endif // CLIENT_MAIN_WINDOW_HPP_
+} // namespace UI
+
+#endif // LIBGUI_HEADER_BAR_HPP_

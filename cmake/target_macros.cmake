@@ -94,6 +94,7 @@ function(zx_add_run TARGET_ALIAS)
     add_custom_target(run
         USES_TERMINAL
         COMMAND echo "Running target (${TARGET_ALIAS})"
+        COMMAND echo "CWD: ${CMAKE_CURRENT_LIST_DIR}"
         COMMAND $<TARGET_FILE:${TARGET_ALIAS}>
         DEPENDS zx::dbgclient
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})

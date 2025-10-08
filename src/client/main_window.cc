@@ -13,20 +13,30 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: main_window.hpp
+// File: main_window.cc
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_MAIN_WINDOW_HPP_
-#define CLIENT_MAIN_WINDOW_HPP_
+#include "main_window.hpp"
 
-#include "libgui/include.hpp"
+constexpr u32 kInitWidth = 1280;
+constexpr u32 kInitHeight = 720;
 
-class MainWindow : public UI::Window {
-private:
-    void SetupHeaderBar();
+void MainWindow::SetupHeaderBar() {
+    UI::HeaderBar header;
+    header.SetTitle("zx-debugger");
 
-public:
-    MainWindow();
-};
+    GtkWidget* icon = gtk_image_new_from_file("icon.png");
+    gtk_widget_set_size_request(icon, 24, 24);
 
-#endif // CLIENT_MAIN_WINDOW_HPP_
+    Widget box(icon);
+    box.SetMargin(UI::MarginOpt::kStart, 8);
+
+    header.Add(box);
+    
+    SetHeaderBar(header);
+}
+
+MainWindow::MainWindow() {
+    Resize(kInitWidth, kInitHeight);
+    SetupHeaderBar();
+}

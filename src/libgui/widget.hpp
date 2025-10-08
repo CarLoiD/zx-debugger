@@ -27,7 +27,7 @@ namespace UI {
 class Widget {
 public:
     struct MarginMask {
-        enum Options : uint32_t {
+        enum Options : u16 {
             kStart      = (1 << 0),
             kEnd        = (1 << 1),
             kTop        = (1 << 2),
@@ -35,11 +35,10 @@ public:
         };
     };
 
-protected:
-    Widget() : m_handle(nullptr) {}
-
 public:
-    virtual ~Widget() = 0;
+    Widget();
+    Widget(GtkWidget* handle);
+    virtual ~Widget();
     
     void SetBackgroundColor(const Color& color);
 
@@ -48,6 +47,7 @@ public:
     void SetMargin(const MarginMask::Options& mask, const int offset);
     void SetMargin(const int offset);
     void SetExpand(const bool h_expand, const bool v_expand);
+    void RequestSize(const s32 req_width, const s32 req_height);
 
     void SetVisible(const bool visible);
     void Show();
@@ -69,7 +69,7 @@ protected:
 using MarginOpt = Widget::MarginMask::Options;
 
 inline MarginOpt operator|(const MarginOpt& lhe, const MarginOpt& rhe) {
-    const uint32_t op = static_cast<uint32_t>(lhe) | static_cast<uint32_t>(rhe);
+    const u16 op = static_cast<u16>(lhe) | static_cast<u16>(rhe);
     return static_cast<MarginOpt>(op);
 }
 

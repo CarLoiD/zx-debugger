@@ -26,27 +26,27 @@ Color::Color()
     : r(0), g(0), b(0), a(255)
 {}
 
-Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+Color::Color(u8 r, u8 g, u8 b, u8 a) {
     this->r = r;
     this->g = g;
     this->b = b;
     this->a = a;
 }
 
-Color::Color(uint32_t wcolor) {
+Color::Color(u32 wcolor) {
     // TBD
 }
 
 GdkRGBA Color::GetGdkColor() const {
     GdkRGBA c;
-    c.red   = static_cast<float>(r) / 255.0f;
-    c.green = static_cast<float>(g) / 255.0f;
-    c.blue  = static_cast<float>(b) / 255.0f;
-    c.alpha = static_cast<float>(a) / 255.0f;
+    c.red   = static_cast<f32>(r) / 255.0f;
+    c.green = static_cast<f32>(g) / 255.0f;
+    c.blue  = static_cast<f32>(b) / 255.0f;
+    c.alpha = static_cast<f32>(a) / 255.0f;
     return c;
 }
 
-uint32_t Color::GetWordColor() const {
+u32 Color::GetWordColor() const {
     return 0;
 }
 
