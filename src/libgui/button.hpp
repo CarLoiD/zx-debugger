@@ -20,16 +20,21 @@
 #define LIBGUI_BUTTON_HPP_
 
 #include "widget.hpp"
+#include "clickable.hpp"
 
 namespace UI {
 
-class Button : public Widget {
+class Button : public Widget, public Clickable {
 public:
     Button();
     Button(std::string_view label, const bool use_mnemonics = false);
     
     void SetLabel(std::string_view label, const bool use_mnemonics = false);
     std::string_view GetLabel() const;
+
+    GtkWidget* GetGtkWidget() const override {
+        return m_handle;
+    }
     
 private:
     GtkButton* m_btn;

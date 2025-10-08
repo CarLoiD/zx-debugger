@@ -30,5 +30,5 @@ zx_cc_binary(
     IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
-    COPTS ${GTK3_CFLAGS_OTHER}
+    COPTS ${GTK3_CFLAGS_OTHER} "-Wno-deprecated-declarations"
 )

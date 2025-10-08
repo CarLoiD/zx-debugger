@@ -23,8 +23,8 @@ namespace UI {
 
 Button::Button() {
     m_handle = gtk_button_new();
-    g_object_ref_sink(m_handle);
 
+    g_object_ref_sink(m_handle);
     m_btn = GTK_BUTTON(m_handle);
 }
 

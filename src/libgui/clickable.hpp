@@ -22,14 +22,64 @@
 #include <type_traits>
 #include <gtk/gtk.h>
 
+#include "base/assert.hpp"
+
 namespace UI {
 
 class Clickable {
 public:
+    // Pointer to member function (method) version
+    template <typename T>
+    void SetOnClickCallback(T* instance, void (T::*method)()) {
+        // The callback need some non local scope data in order to call the method later
+        struct Data {
+            T* instance;
+            void (T::*method)();
+        };
+
+        // Alloc such data on the heap
+        auto* udata = new Data;
+        udata->instance = instance;
+        udata->method = method;
+
+        // Pass as data and set a closure to delete the data when the widget is destroyed
+        g_signal_connect_data(
+            GetGtkWidget(),
+            "clicked",
+            G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
+                auto* thiz = static_cast<Data*>(user_data);
+                (thiz->instance->*(thiz->method))();
+            }),
+            udata,
+            [](gpointer data, GClosure*) { delete static_cast<Data*>(data); },
+            static_cast<GConnectFlags>(0)
+        );
+    }
+
+    // Functor version
     template <typename Callable>
     void SetOnClickCallback(Callable&& cb) {
-        using Functor = std::decay_t<Callable>; 
+        // Clean functor type that can be allocated
+        using Functor = std::decay_t<Callable>;
+
+        // Same as in pointer to member, non local scope data is needed...
+        auto* udata = new Functor(std::forward<Callable>(cb));
+
+        g_signal_connect_data(
+            GetGtkWidget(),
+            "clicked",
+            G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
+                auto* f = static_cast<Functor*>(user_data);
+                (*f)();
+            }),
+            udata,
+            [](gpointer data, GClosure*) { delete static_cast<Functor*>(data); },
+            static_cast<GConnectFlags>(0)
+        );
     }
+
+protected:
+    virtual GtkWidget* GetGtkWidget() const = 0;
 };
 
 } // namespace UI
