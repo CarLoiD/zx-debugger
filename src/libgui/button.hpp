@@ -13,18 +13,28 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: button.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
+#ifndef LIBGUI_BUTTON_HPP_
+#define LIBGUI_BUTTON_HPP_
 
-// base
-#include "base/assert.hpp"
+#include "widget.hpp"
 
-// libgui
-#include "window.hpp"
-#include "button.hpp"
-#include "application.hpp"
+namespace UI {
 
-#endif // LIBGUI_INCLUDE_HPP_
+class Button : public Widget {
+public:
+    Button();
+    Button(std::string_view label, const bool use_mnemonics = false);
+    
+    void SetLabel(std::string_view label, const bool use_mnemonics = false);
+    std::string_view GetLabel() const;
+    
+private:
+    GtkButton* m_btn;
+};
+
+} // namespace UI
+
+#endif // LIBGUI_BUTTON_HPP_

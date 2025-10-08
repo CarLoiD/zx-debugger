@@ -32,7 +32,7 @@ GtkApplication* Application::GetDefault() {
     return g_app;
 }
 
-Application::Application(int argc, char* argv[])
+Application::Application(int argc, char* argv[], const bool dark_theme)
     : m_app(nullptr)
     , m_argc(argc)
     , m_argv(argv)
@@ -44,6 +44,8 @@ Application::Application(int argc, char* argv[])
         ASSERT(!error, error->message);
         if (error) g_error_free(error);
     }
+
+    g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", dark_theme, nullptr);
 
     g_app = m_app;
 }

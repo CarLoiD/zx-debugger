@@ -39,21 +39,21 @@ void Widget::SetBackgroundColor(const Color& color) {
     gtk_widget_override_background_color(m_handle, GTK_STATE_FLAG_NORMAL, &c);
 }
 
-void Widget::SetMarginX(int offset) {
+void Widget::SetMarginX(const int offset) {
     ASSERT_PTR(m_handle);
 
     gtk_widget_set_margin_start(m_handle, offset);
     gtk_widget_set_margin_end(m_handle, offset);
 }
 
-void Widget::SetMarginY(int offset) {
+void Widget::SetMarginY(const int offset) {
     ASSERT_PTR(m_handle);
 
     gtk_widget_set_margin_top(m_handle, offset);
     gtk_widget_set_margin_bottom(m_handle, offset);
 }
 
-void Widget::SetMargin(const MarginMask::Options& mask, int offset) {
+void Widget::SetMargin(const MarginMask::Options& mask, const int offset) {
     ASSERT_PTR(m_handle);
 
     if (mask & Widget::MarginMask::kStart)  gtk_widget_set_margin_start(m_handle, offset);
@@ -62,16 +62,42 @@ void Widget::SetMargin(const MarginMask::Options& mask, int offset) {
     if (mask & Widget::MarginMask::kBottom) gtk_widget_set_margin_bottom(m_handle, offset);
 }
 
-void Widget::SetMargin(int offset) {
+void Widget::SetMargin(const int offset) {
     SetMarginX(offset);
     SetMarginY(offset);
 }
 
-void Widget::SetExpand(bool h_expand, bool v_expand) {
+void Widget::SetExpand(const bool h_expand, const bool v_expand) {
     ASSERT_PTR(m_handle);
 
     gtk_widget_set_hexpand(m_handle, h_expand);
     gtk_widget_set_vexpand(m_handle, v_expand);
+}
+
+void Widget::SetVisible(const bool visible) {
+    ASSERT_PTR(m_handle);
+    gtk_widget_set_visible(m_handle, visible);
+}
+
+void Widget::Show() {
+    SetVisible(true);
+}
+
+void Widget::Hide() {
+    SetVisible(false);
+}
+
+void Widget::SetEnabled(const bool enabled) {
+    ASSERT_PTR(m_handle);
+    gtk_widget_set_sensitive(m_handle, enabled);
+}
+
+void Widget::Enable() {
+    SetEnabled(true);
+}
+
+void Widget::Disable() {
+    SetEnabled(false);
 }
 
 } // namespace UI

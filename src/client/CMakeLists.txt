@@ -24,6 +24,7 @@ zx_cc_binary(
         "../libgui/application.cc"
         "../libgui/color.cc"
         "../libgui/window.cc"
+        "../libgui/button.cc"
         "../libgui/widget.cc"
         "main.cc"
     IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}

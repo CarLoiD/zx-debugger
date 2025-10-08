@@ -16,8 +16,8 @@
 // File: application.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef CLIENT_UI_APPLICATION_HPP_
-#define CLIENT_UI_APPLICATION_HPP_
+#ifndef LIBGUI_APPLICATION_HPP_
+#define LIBGUI_APPLICATION_HPP_
 
 #include <gtk/gtk.h>
 
@@ -31,7 +31,7 @@ public:
 
 public:
     Application() = delete;
-    Application(int argc, char* argv[]);
+    Application(int argc, char* argv[], const bool dark_theme = true);
     ~Application();
 
     int Run(UI::Window& window);
@@ -46,4 +46,4 @@ private:
 
 } // namespace UI
 
-#endif // CLIENT_UI_APPLICATION_HPP_
+#endif // LIBGUI_APPLICATION_HPP_

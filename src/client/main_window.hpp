@@ -22,10 +22,23 @@
 #include "libgui/include.hpp"
 
 class MainWindow : public UI::Window {
+private:
+    void QuitApplication() {
+        btn.Disable();
+    }
+
 public:
     MainWindow() {
-        Resize(1280, 720);
+        btn.SetLabel("Hello, World!");
+        //btn.SetOnClickCallback(this, &MainWindow::QuitApplication);
+
+        Add(btn);
+
+        ShowAll();
     }
+
+private:
+    UI::Button btn;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

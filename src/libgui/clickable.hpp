@@ -13,18 +13,25 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: clickable.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
+#ifndef LIBGUI_CLICKABLE_HPP_
+#define LIBGUI_CLICKABLE_HPP_
 
-// base
-#include "base/assert.hpp"
+#include <type_traits>
+#include <gtk/gtk.h>
 
-// libgui
-#include "window.hpp"
-#include "button.hpp"
-#include "application.hpp"
+namespace UI {
 
-#endif // LIBGUI_INCLUDE_HPP_
+class Clickable {
+public:
+    template <typename Callable>
+    void SetOnClickCallback(Callable&& cb) {
+        using Functor = std::decay_t<Callable>; 
+    }
+};
+
+} // namespace UI
+
+#endif // LIBGUI_CLICKABLE_HPP_

@@ -13,53 +13,42 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: window.cc
+// File: button.cc
 // ---------------------------------------------------------------------------
 
-#include "window.hpp"
-#include "application.hpp"
+#include "button.hpp"
 #include "base/assert.hpp"
 
 namespace UI {
 
-Window::Window() {
-    GtkApplication* app = Application::GetDefault();
-    ASSERT_PTR(app);
-
-    m_handle = gtk_application_window_new(app);
+Button::Button() {
+    m_handle = gtk_button_new();
     g_object_ref_sink(m_handle);
 
-    m_wnd = GTK_WINDOW(m_handle);
-    Resize(300, 200);
+    m_btn = GTK_BUTTON(m_handle);
 }
 
-Window::~Window() {}
+Button::Button(std::string_view label, const bool use_mnemonics) {
+    if (use_mnemonics) {
+        m_handle = gtk_button_new_with_mnemonic(label.data());
+    } else {
+        m_handle = gtk_button_new_with_label(label.data());
+    }
 
-void Window::SetTitle(std::string_view new_title) {
-    ASSERT_PTR(m_wnd);
-    gtk_window_set_title(m_wnd, new_title.data());
+    g_object_ref_sink(m_handle);
+    m_btn = GTK_BUTTON(m_handle);
 }
 
-void Window::Resize(int new_width, int new_height) {
-    ASSERT_PTR(m_wnd);
-    gtk_window_set_default_size(m_wnd, new_width, new_height);
+void Button::SetLabel(std::string_view label, const bool use_mnemonics) {
+    ASSERT_PTR(m_btn);
+
+    gtk_button_set_use_underline(m_btn, use_mnemonics);
+    gtk_button_set_label(m_btn, label.data());
 }
 
-void Window::Close() {
-    ASSERT_PTR(m_wnd);
-    gtk_window_close(m_wnd);
-}
-
-void Window::ShowAll() {
-    ASSERT_PTR(m_handle);
-    gtk_widget_show_all(m_handle);
-}
-
-void Window::Add(Widget& child) {
-    ASSERT_PTR(m_handle);
-    ASSERT_PTR(child.GetHandle());
-
-    gtk_container_add(GTK_CONTAINER(m_handle), child.GetHandle());
+std::string_view Button::GetLabel() const {
+    ASSERT_PTR(m_btn);
+    return std::string_view(gtk_button_get_label(m_btn));
 }
 
 } // namespace UI
