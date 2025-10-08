@@ -28,7 +28,6 @@ public:
     Window();
     ~Window();
 
-    void PreferDarkTheme(const bool option);
     void SetTitle(std::string_view new_title);
     void Resize(int new_width, int new_height);
     void Close();
