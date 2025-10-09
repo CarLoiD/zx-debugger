@@ -188,7 +188,7 @@ void MainWindow::SetupMenuBar() {
 
 void MainWindow::SetupHeaderBar() {
     UI::HeaderBar header;
-    header.SetTitle("");
+    header.SetTitle("zx-debugger"); // Default title while no session is loaded
 
     UI::Image app_icon("icon.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
@@ -229,6 +229,16 @@ void MainWindow::SetupCustomStyle() {
         menubar, menu, menu popup, menuitem {
             box-shadow: none;
             border: none;
+        }
+
+        menu {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        menuitem {
+            padding-left: 8px;
+            padding-right: 8px;
         }
     )");
 

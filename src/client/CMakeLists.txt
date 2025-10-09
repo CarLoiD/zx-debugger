@@ -31,6 +31,7 @@ zx_cc_binary(
         "../libgui/window.cc"
         "main.cc"
         "main_window.cc"
+        "../../icon.rc"
     IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
