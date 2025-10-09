@@ -21,7 +21,7 @@
 #ifndef BASE_TYPES_HPP_
 #define BASE_TYPES_HPP_
 
-// uint32_t, int8_t, etc.
+// uint32_t, size_t, etc.
 #include <cstddef>
 #include <cstdint>
 

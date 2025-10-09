@@ -61,9 +61,9 @@ public:
 
 private:
     GtkMenuBar* m_mb;
+
     std::vector<SubmenuHolder> m_holder;
     std::vector<SubmenuContext> m_stack;
-
     OnCommandCallback m_cb;
 };
 
