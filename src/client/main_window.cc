@@ -50,11 +50,16 @@ struct MenuId {
         // Debug
         kDebugRun,
         kDebugRunWithoutDebugging,
-        kDebugBreak,
         kDebugContinue,
+        kDebugBreak,
+        kDebugRestart,
         kDebugStepOver,
         kDebugStepIn,
         kDebugStepOut,
+        kDebugToggleBreakpoint,
+        kDebugNewBptFunc,
+        kDebugNewBptAddr,
+        kDebugDeleteAllBrkpts,
         kDebugExportDump,
 
         // Help
@@ -98,17 +103,19 @@ void MainWindow::OnMenuCommand(s32 id) {
 }
 
 void MainWindow::SetupMenuBar() {
-    constexpr auto kCtrlKey = GDK_CONTROL_MASK;
-    constexpr auto kCtrlShiftKey = GDK_SHIFT_MASK | GDK_CONTROL_MASK;
-    constexpr auto kAltKey = GDK_MOD1_MASK;
+    constexpr auto kCtrlKey   = GDK_CONTROL_MASK;
+    constexpr auto kAltKey    = GDK_MOD1_MASK;
+    constexpr auto kShiftKey  = GDK_SHIFT_MASK;
+    constexpr auto kCtrlShiftKey = kCtrlKey | kShiftKey;
+    constexpr auto kShiftAltKey  = kShiftKey | kAltKey;
 
     // Setup menu bar and it's actions
     m_mb.RegisterAccelGroup(*this);
     m_mb.SetOnCommandCallback(this, &MainWindow::OnMenuCommand);
 
     m_mb.PushSubmenu("_Session");
-        m_mb.AppendItem("_New", MenuOpt::kFileNew, { kCtrlKey, GDK_KEY_n });
-        m_mb.AppendItem("_Open", MenuOpt::kFileOpen, { kCtrlKey, GDK_KEY_o });
+        m_mb.AppendItem("_New...", MenuOpt::kFileNew, { kCtrlKey, GDK_KEY_n });
+        m_mb.AppendItem("_Open...", MenuOpt::kFileOpen, { kCtrlKey, GDK_KEY_o });
         
         m_mb.AppendSeparator();
         m_mb.PushSubmenu("Recent _Executables");
@@ -124,13 +131,16 @@ void MainWindow::SetupMenuBar() {
         
         m_mb.AppendItem("E_xit", MenuOpt::kFileExit, { kAltKey, GDK_KEY_F4 });
     m_mb.PopSubmenu();
+    
+    // TODO: Edit submenu
 
     m_mb.PushSubmenu("_View");
         m_mb.PushSubmenu("Appearance");
-            m_mb.AppendItem("_Full Screen", MenuOpt::kViewAppearanceFullScreen, { 0, GDK_KEY_F11 });
+            m_mb.AppendItem("_Full Screen", MenuOpt::kViewAppearanceFullScreen, { kShiftAltKey , GDK_KEY_Return });
         m_mb.PopSubmenu();
 
         m_mb.PushSubmenu("Layout");
+            // TODO: Layout related functions
         m_mb.PopSubmenu();
 
         m_mb.AppendSeparator();
@@ -143,23 +153,33 @@ void MainWindow::SetupMenuBar() {
     m_mb.PopSubmenu();
 
     m_mb.PushSubmenu("_Debug");
-        m_mb.AppendItem("_Run", MenuOpt::kDebugRun);
-        m_mb.AppendItem("Run _Without Debugging", MenuOpt::kDebugRunWithoutDebugging);
+        m_mb.AppendItem("Start _Debugging", MenuOpt::kDebugRun, { 0, GDK_KEY_F5 });
+        m_mb.AppendItem("Start _Without Debugging", MenuOpt::kDebugRunWithoutDebugging, { kCtrlKey, GDK_KEY_F5 });
 
         m_mb.AppendSeparator();
-        m_mb.AppendItem("_Break", MenuOpt::kDebugBreak);
-        m_mb.AppendItem("_Continue", MenuOpt::kDebugContinue);
-        m_mb.AppendItem("_Step Over", MenuOpt::kDebugStepOver);
-        m_mb.AppendItem("Step _In", MenuOpt::kDebugStepIn);
-        m_mb.AppendItem("Step _Out", MenuOpt::kDebugStepOut);
+        m_mb.AppendItem("_Continue", MenuOpt::kDebugContinue, { kShiftKey, GDK_KEY_F5 });
+        m_mb.AppendItem("Brea_k", MenuOpt::kDebugBreak, { 0, GDK_KEY_Break });
+        m_mb.AppendItem("_Restart", MenuOpt::kDebugRestart, { kCtrlShiftKey, GDK_KEY_F5 });
 
         m_mb.AppendSeparator();
-        m_mb.AppendItem("E_xport Dump", MenuOpt::kDebugExportDump);
+        m_mb.AppendItem("_Step Over", MenuOpt::kDebugStepOver, { 0, GDK_KEY_F10 });
+        m_mb.AppendItem("Step _In", MenuOpt::kDebugStepIn, { 0, GDK_KEY_F11 });
+        m_mb.AppendItem("Step _Out", MenuOpt::kDebugStepOut, { kShiftKey, GDK_KEY_F11 });
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("_Toggle Breakpoint", MenuOpt::kDebugToggleBreakpoint, { 0, GDK_KEY_F9 });
+        m_mb.PushSubmenu("New Breakpoint");
+            m_mb.AppendItem("At _Function...", MenuOpt::kDebugNewBptFunc);
+            m_mb.AppendItem("At _Address...", MenuOpt::kDebugNewBptAddr);
+        m_mb.PopSubmenu();
+        m_mb.AppendItem("Delete _All Breakpoints", MenuOpt::kDebugDeleteAllBrkpts, { kCtrlShiftKey, GDK_KEY_F9 });
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("E_xport Dump...", MenuOpt::kDebugExportDump);
     m_mb.PopSubmenu();
 
     m_mb.PushSubmenu("_Help");
-        m_mb.AppendItem("_Debugger Manual", MenuOpt::kHelpDebuggerManual);
-        m_mb.AppendItem("_R5900 Manual", MenuOpt::kHelpR5900Manual);
+        m_mb.AppendItem("User _Manual", MenuOpt::kHelpDebuggerManual, { kCtrlKey, GDK_KEY_F1 });
         
         m_mb.AppendSeparator();
         m_mb.AppendItem("_About", MenuOpt::kHelpAbout);
@@ -168,7 +188,7 @@ void MainWindow::SetupMenuBar() {
 
 void MainWindow::SetupHeaderBar() {
     UI::HeaderBar header;
-    header.SetTitle("zx-debugger");
+    header.SetTitle("");
 
     UI::Image app_icon("icon.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
