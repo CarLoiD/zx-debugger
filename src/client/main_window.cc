@@ -23,21 +23,57 @@
 constexpr u32 kInitWidth = 1280;
 constexpr u32 kInitHeight = 720;
 
+struct MenuId {
+    enum Options : s32 {
+        // File
+        kFileNew = 0,
+        kFileOpen,
+        kFileExit,
+
+        // View
+        kViewBreakpoints,
+        kViewDisassembly,
+        kViewMemory,
+        kViewLogConsole,
+        kViewRegisters,
+        kViewWatch,
+
+        // Debug
+        kDebugRun,
+        kDebugRunWithoutDebugging,
+        kDebugBreak,
+        kDebugContinue,
+        kDebugStepOver,
+        kDebugStepIn,
+        kDebugStepOut,
+        kDebugExportDump,
+
+        // Help
+        kHelpDebuggerManual,
+        kHelpR5900Manual,
+        kHelpAbout,
+    };
+};
+
+using MenuOpt = MenuId::Options;
+
+void MainWindow::OnMenuCommand(s32 id) {
+    MenuOpt opt = static_cast<MenuOpt>(id);
+    switch (opt) {
+        case kFileExit:
+            Close();
+        break;
+
+        default: break;
+    }
+}
+
 void MainWindow::SetupHeaderBar() {
     UI::HeaderBar header;
     header.SetTitle("zx-debugger");
-    
+
     UI::Image app_icon("icon.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
-   
-    m_mb.SetOnCommandCallback(+[](s32 id){
-        switch (id) {
-            case 0:
-            break;
-
-            default: break;
-        }
-    });
 
     m_mb.PushSubmenu("_Session");
         m_mb.AppendItem("_New");
@@ -51,6 +87,15 @@ void MainWindow::SetupHeaderBar() {
         m_mb.AppendSeparator();
         
         m_mb.AppendItem("E_xit", 0);
+    m_mb.PopSubmenu();
+
+    m_mb.PushSubmenu("_View");
+        m_mb.AppendItem("Breakpoints");
+        m_mb.AppendItem("Disassembly");
+        m_mb.AppendItem("Memory");
+        m_mb.AppendItem("Log Console");
+        m_mb.AppendItem("Registers");
+        m_mb.AppendItem("Watch");
     m_mb.PopSubmenu();
 
     header.Add(app_icon);

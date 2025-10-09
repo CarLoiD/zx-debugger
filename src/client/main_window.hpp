@@ -23,6 +23,7 @@
 
 class MainWindow : public UI::Window {
 private:
+    void OnMenuCommand(s32 id);
     void SetupHeaderBar();
     void SetupCustomStyle();
 
