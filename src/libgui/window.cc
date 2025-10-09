@@ -56,11 +56,6 @@ void Window::Close() {
     gtk_window_close(m_wnd);
 }
 
-void Window::ShowAll() {
-    ASSERT_PTR(m_handle);
-    gtk_widget_show_all(m_handle);
-}
-
 void Window::Add(Widget& child) {
     ASSERT_PTR(m_handle);
     ASSERT_PTR(child.GetHandle());

@@ -18,8 +18,10 @@
 
 #include "main_window.hpp"
 
+constexpr bool kPreferDarkTheme = true;
+
 int main(int argc, char* argv[]) {
-    UI::Application app(argc, argv);
+    UI::Application app(argc, argv, kPreferDarkTheme);
     MainWindow wnd;
     return app.Run(wnd);
 }

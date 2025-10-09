@@ -24,9 +24,13 @@
 class MainWindow : public UI::Window {
 private:
     void SetupHeaderBar();
+    void SetupCustomStyle();
 
 public:
     MainWindow();
+
+private:
+    UI::MenuBar m_mb;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

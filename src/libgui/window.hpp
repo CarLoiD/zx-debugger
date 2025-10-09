@@ -36,7 +36,6 @@ public:
     void SetTitle(std::string_view new_title);
     void Resize(int new_width, int new_height);
     void Close();
-    void ShowAll();
 
     // A GTK3 Window can have a single child widget bound on it's container
     void Add(Widget& child) override;

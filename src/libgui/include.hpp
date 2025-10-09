@@ -26,6 +26,8 @@
 #include "application.hpp"
 #include "button.hpp"
 #include "header_bar.hpp"
+#include "image.hpp"
+#include "menu_bar.hpp"
 #include "window.hpp"
 
 #endif // LIBGUI_INCLUDE_HPP_

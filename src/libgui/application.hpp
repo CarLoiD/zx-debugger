@@ -20,6 +20,7 @@
 #define LIBGUI_APPLICATION_HPP_
 
 #include <gtk/gtk.h>
+#include <string_view>
 
 namespace UI {
 
@@ -28,6 +29,8 @@ class Window;
 class Application final {
 public:
     static GtkApplication* GetDefault();
+    static void EvalCSS(GtkWidget* context, std::string_view expression);
+    static void GdkEvalCSS(std::string_view expression);
 
 public:
     Application() = delete;

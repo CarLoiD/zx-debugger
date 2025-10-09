@@ -23,11 +23,25 @@
 
 namespace UI {
 
+enum class IconSize {
+    kInvalid = 0,
+    kMenu = 1,          //< 16px
+    kSmallToolbar = 2,  //< 16px
+    kLargeToolbar = 3,  //< 24px
+    kButton = 4,        //< 16px
+    kDragAndDrop = 5,   //< 32px
+    kDialog = 6,        //< 48px
+};
+
 class Image : public Widget {
 public:
     Image();
     Image(std::string_view file_path, s32 req_width = -1, s32 req_height = -1);
+    Image(std::string_view icon_name, const IconSize& size);
     ~Image();
+
+    void SetFromFile(std::string_view file_path);
+    void SetFromIconName(std::string_view icon_name, const IconSize& size);
 
 private:
     GtkImage* m_image;

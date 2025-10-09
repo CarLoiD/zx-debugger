@@ -20,7 +20,7 @@
 #define LIBGUI_WIDGET_HPP_
 
 #include <gtk/gtk.h> 
-#include "color.hpp"
+#include "base/types.hpp"
 
 namespace UI {
 
@@ -35,13 +35,14 @@ public:
         };
     };
 
+    // GDK screen is used as context for the style eval
+    static void GlobalEvalCSS(std::string_view expression);
+
 public:
     Widget();
     Widget(GtkWidget* handle);
     virtual ~Widget();
     
-    void SetBackgroundColor(const Color& color);
-
     void SetMarginX(const int offset);
     void SetMarginY(const int offset);
     void SetMargin(const MarginMask::Options& mask, const int offset);
@@ -56,6 +57,11 @@ public:
     void SetEnabled(const bool enabled);
     void Enable();
     void Disable();
+    
+    void ShowAll();
+
+    // Widget instance is used as context
+    void LocalEvalCSS(std::string_view expression);
 
     // Non-pure virtual function, when not overwritten by a subclass it triggers a failure on debug builds
     virtual void Add(Widget& child);

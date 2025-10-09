@@ -25,6 +25,8 @@ zx_cc_binary(
         "../libgui/button.cc"
         "../libgui/color.cc"
         "../libgui/header_bar.cc"
+        "../libgui/image.cc"
+        "../libgui/menu_bar.cc"
         "../libgui/widget.cc"
         "../libgui/window.cc"
         "main.cc"
@@ -32,5 +34,5 @@ zx_cc_binary(
     IDIRS ${GTK3_INCLUDE_DIRS} ${CMAKE_CURRENT_LIST_DIR}
     LDIRS ${GTK3_LIBRARY_DIRS}
     LIBS  ${GTK3_LIBRARIES}
-    COPTS ${GTK3_CFLAGS_OTHER} "-Wno-deprecated-declarations"
+    COPTS ${GTK3_CFLAGS_OTHER} 
 )

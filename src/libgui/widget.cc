@@ -21,6 +21,18 @@
 
 namespace UI {
 
+void Widget::GlobalEvalCSS(std::string_view expression) {
+    GtkCssProvider* provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, expression.data(), -1, nullptr);
+
+    gtk_style_context_add_provider_for_screen(
+        gdk_screen_get_default(),
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    g_object_unref(provider);
+}
+
 Widget::Widget()
     : m_handle(nullptr)
 {}
@@ -41,13 +53,6 @@ void Widget::Add(Widget& child) {
     ASSERT(false, "Unsupported Widget::Add() operation");
 }
 
-void Widget::SetBackgroundColor(const Color& color) {
-    ASSERT_PTR(m_handle);
-
-    GdkRGBA c = color.GetGdkColor(); 
-    gtk_widget_override_background_color(m_handle, GTK_STATE_FLAG_NORMAL, &c);
-}
-
 void Widget::SetMarginX(const int offset) {
     ASSERT_PTR(m_handle);
 
@@ -65,10 +70,10 @@ void Widget::SetMarginY(const int offset) {
 void Widget::SetMargin(const MarginMask::Options& mask, const int offset) {
     ASSERT_PTR(m_handle);
 
-    if (mask & Widget::MarginMask::kStart)  gtk_widget_set_margin_start(m_handle, offset);
-    if (mask & Widget::MarginMask::kEnd)    gtk_widget_set_margin_end(m_handle, offset);
-    if (mask & Widget::MarginMask::kTop)    gtk_widget_set_margin_top(m_handle, offset);
-    if (mask & Widget::MarginMask::kBottom) gtk_widget_set_margin_bottom(m_handle, offset);
+    if (mask & MarginOpt::kStart)  gtk_widget_set_margin_start(m_handle, offset);
+    if (mask & MarginOpt::kEnd)    gtk_widget_set_margin_end(m_handle, offset);
+    if (mask & MarginOpt::kTop)    gtk_widget_set_margin_top(m_handle, offset);
+    if (mask & MarginOpt::kBottom) gtk_widget_set_margin_bottom(m_handle, offset);
 }
 
 void Widget::SetMargin(const int offset) {
@@ -85,7 +90,7 @@ void Widget::SetExpand(const bool h_expand, const bool v_expand) {
 
 void Widget::RequestSize(const s32 req_width, const s32 req_height) {
     ASSERT_PTR(m_handle);
-    gtk_widget_set_size_request(m_handle, req_widt, req_height);
+    gtk_widget_set_size_request(m_handle, req_width, req_height);
 }
 
 void Widget::SetVisible(const bool visible) {
@@ -112,6 +117,25 @@ void Widget::Enable() {
 
 void Widget::Disable() {
     SetEnabled(false);
+}
+
+void Widget::ShowAll() {
+    ASSERT_PTR(m_handle);
+    gtk_widget_show_all(m_handle);
+}
+
+void Widget::LocalEvalCSS(std::string_view expression) {
+    ASSERT_PTR(m_handle);
+
+    GtkCssProvider* provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, expression.data(), -1, nullptr);
+
+    gtk_style_context_add_provider(
+        gtk_widget_get_style_context(m_handle),
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    g_object_unref(provider);
 }
 
 } // namespace UI

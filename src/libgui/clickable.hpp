@@ -52,8 +52,7 @@ public:
             }),
             udata,
             [](gpointer data, GClosure*) { delete static_cast<Data*>(data); },
-            static_cast<GConnectFlags>(0)
-        );
+            static_cast<GConnectFlags>(0));
     }
 
     // Functor version
@@ -74,8 +73,7 @@ public:
             }),
             udata,
             [](gpointer data, GClosure*) { delete static_cast<Functor*>(data); },
-            static_cast<GConnectFlags>(0)
-        );
+            static_cast<GConnectFlags>(0));
     }
 
 protected:
