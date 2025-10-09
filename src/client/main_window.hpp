@@ -24,11 +24,15 @@
 class MainWindow : public UI::Window {
 private:
     void OnMenuCommand(s32 id);
+    void SetupMenuBar();
     void SetupHeaderBar();
     void SetupCustomStyle();
 
 public:
     MainWindow();
+    
+    // Overwrite so that confirm shutdown dialog can be called
+    bool Close() override;
 
 private:
     UI::MenuBar m_mb;

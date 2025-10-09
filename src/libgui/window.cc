@@ -51,9 +51,10 @@ void Window::Resize(int new_width, int new_height) {
     gtk_window_set_default_size(m_wnd, new_width, new_height);
 }
 
-void Window::Close() {
+bool Window::Close() {
     ASSERT_PTR(m_wnd);
     gtk_window_close(m_wnd);
+    return false;
 }
 
 void Window::Add(Widget& child) {

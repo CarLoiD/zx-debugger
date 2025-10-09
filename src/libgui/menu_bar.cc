@@ -16,23 +16,51 @@
 // File: menu_bar.cc
 // ---------------------------------------------------------------------------
 
-#include <iostream>
-#include <cstdio>
-
 #include "menu_bar.hpp"
+#include "window.hpp"
 #include "base/assert.hpp"
 
 namespace UI {
 
-MenuBar::MenuBar() {
+MenuBar::AccelKey::AccelKey()
+    : mods(0)
+    , key(0)
+{}
+
+MenuBar::AccelKey::AccelKey(u32 key) {
+    this->mods = 0;
+    this->key = key;
+}
+
+MenuBar::AccelKey::AccelKey(u32 mods, u32 key) {
+    this->mods = mods;
+    this->key = key;
+}
+
+MenuBar::AccelKey::operator bool() const {
+    return this->key != 0;
+}
+
+MenuBar::MenuBar()
+    : m_registered_accel(false)
+{
     m_handle = gtk_menu_bar_new();
     g_object_ref_sink(m_handle);
+
+    m_accel_group = gtk_accel_group_new();
 
     m_cb = nullptr;
     m_mb = GTK_MENU_BAR(m_handle);
 }
 
 MenuBar::~MenuBar() {}
+
+void MenuBar::RegisterAccelGroup(Window& window) {
+    ASSERT_PTR(window.GetHandle());
+
+    gtk_window_add_accel_group(GTK_WINDOW(window.GetHandle()), m_accel_group);
+    m_registered_accel = true;
+}
 
 void MenuBar::PushSubmenu(std::string_view label) {
     // The normal C api can be confusing, but just to remember:
@@ -62,20 +90,32 @@ void MenuBar::PopSubmenu() {
     gtk_widget_show_all(submenu.menu_item);
 }
 
-void MenuBar::AppendItem(std::string_view label, const s32 id) {
-    ASSERT(!m_stack.empty(), "Trying to append item to inactive submenu stack");
+void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& keybind) {
     ASSERT(!(id >= 0 && !m_cb), "Trying to append valid id without cmd callback");
+    ASSERT(!(keybind && !m_registered_accel), "Keybind set without previous register");
+    ASSERT(!m_stack.empty(), "Trying to append item to inactive submenu stack");
 
+    // callback should be a pointer to a function of signature void (*)(s32)
     struct Data {
-        OnCommandCallback callback;
         s32 id;
+        std::function<void(s32)> callback;
     };
 
     auto* udata = new Data;
-    udata->callback = m_cb;
     udata->id = id;
+    udata->callback = m_cb;
 
     GtkWidget* item = gtk_menu_item_new_with_mnemonic(label.data());
+
+    if (keybind) {
+        gtk_widget_add_accelerator(
+            item,
+            "activate",
+            m_accel_group,
+            keybind.key,
+            static_cast<GdkModifierType>(keybind.mods),
+            GTK_ACCEL_VISIBLE);
+    }
 
     g_signal_connect_data(
         item,
@@ -100,10 +140,6 @@ void MenuBar::AppendSeparator() {
     GtkWidget* item = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(m_stack.back().menu), item);
     gtk_widget_show(item);
-}
-
-void MenuBar::SetOnCommandCallback(OnCommandCallback cb) {
-    m_cb = cb;
 }
 
 Widget& MenuBar::operator[](const size_t index) {

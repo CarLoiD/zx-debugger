@@ -35,7 +35,7 @@ public:
 
     void SetTitle(std::string_view new_title);
     void Resize(int new_width, int new_height);
-    void Close();
+    virtual bool Close(); // Can overwrite the default behavior on close (e.g: confirm shutdown)
 
     // A GTK3 Window can have a single child widget bound on it's container
     void Add(Widget& child) override;

@@ -18,8 +18,6 @@
 
 #include "main_window.hpp"
 
-#include <iostream>
-
 constexpr u32 kInitWidth = 1280;
 constexpr u32 kInitHeight = 720;
 
@@ -28,9 +26,20 @@ struct MenuId {
         // File
         kFileNew = 0,
         kFileOpen,
+        kFileRecentExec1,
+        kFileRecentExec2,
+        kFileRecentExec3,
+        kFileRecentExec4,
+        kFileRecentExec5,
+        kFileRecentSession1,
+        kFileRecentSession2,
+        kFileRecentSession3,
+        kFileRecentSession4,
+        kFileRecentSession5,
         kFileExit,
 
         // View
+        kViewAppearanceFullScreen,
         kViewBreakpoints,
         kViewDisassembly,
         kViewMemory,
@@ -60,12 +69,101 @@ using MenuOpt = MenuId::Options;
 void MainWindow::OnMenuCommand(s32 id) {
     MenuOpt opt = static_cast<MenuOpt>(id);
     switch (opt) {
-        case kFileExit:
+        case MenuOpt::kFileNew:
+        break;
+
+        case MenuOpt::kFileOpen:
+        break;
+
+        case MenuOpt::kFileRecentExec1:
+        case MenuOpt::kFileRecentExec2:
+        case MenuOpt::kFileRecentExec3:
+        case MenuOpt::kFileRecentExec4:
+        case MenuOpt::kFileRecentExec5:
+        break;
+        
+        case MenuOpt::kFileRecentSession1:
+        case MenuOpt::kFileRecentSession2:
+        case MenuOpt::kFileRecentSession3:
+        case MenuOpt::kFileRecentSession4:
+        case MenuOpt::kFileRecentSession5:
+        break;
+
+        case MenuOpt::kFileExit:
             Close();
         break;
 
         default: break;
     }
+}
+
+void MainWindow::SetupMenuBar() {
+    constexpr auto kCtrlKey = GDK_CONTROL_MASK;
+    constexpr auto kCtrlShiftKey = GDK_SHIFT_MASK | GDK_CONTROL_MASK;
+    constexpr auto kAltKey = GDK_MOD1_MASK;
+
+    // Setup menu bar and it's actions
+    m_mb.RegisterAccelGroup(*this);
+    m_mb.SetOnCommandCallback(this, &MainWindow::OnMenuCommand);
+
+    m_mb.PushSubmenu("_Session");
+        m_mb.AppendItem("_New", MenuOpt::kFileNew, { kCtrlKey, GDK_KEY_n });
+        m_mb.AppendItem("_Open", MenuOpt::kFileOpen, { kCtrlKey, GDK_KEY_o });
+        
+        m_mb.AppendSeparator();
+        m_mb.PushSubmenu("Recent _Executables");
+            // TODO: Implement MainWindow::FillRecentExecItems()
+            m_mb.AppendItem(R"(_1 C:\projects\game\zx-debug.elf)");
+            m_mb.AppendItem(R"(_2 C:\projects\zx-buster\zx-release.elf)");
+        m_mb.PopSubmenu();
+        m_mb.PushSubmenu("Recent Saved _Sessions");
+            // TODO: Implement MainWindow::FillRecentSessionItems()
+            m_mb.AppendItem(R"(_1 C:\projects\game\zx-debug.zds)");
+        m_mb.PopSubmenu();
+        m_mb.AppendSeparator();
+        
+        m_mb.AppendItem("E_xit", MenuOpt::kFileExit, { kAltKey, GDK_KEY_F4 });
+    m_mb.PopSubmenu();
+
+    m_mb.PushSubmenu("_View");
+        m_mb.PushSubmenu("Appearance");
+            m_mb.AppendItem("_Full Screen", MenuOpt::kViewAppearanceFullScreen, { 0, GDK_KEY_F11 });
+        m_mb.PopSubmenu();
+
+        m_mb.PushSubmenu("Layout");
+        m_mb.PopSubmenu();
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("_Breakpoints", MenuOpt::kViewBreakpoints, { kCtrlShiftKey, GDK_KEY_b });
+        m_mb.AppendItem("_Disassembly", MenuOpt::kViewDisassembly, { kCtrlShiftKey, GDK_KEY_d });
+        m_mb.AppendItem("_Memory", MenuOpt::kViewMemory, { kCtrlShiftKey, GDK_KEY_m });
+        m_mb.AppendItem("_Log Console", MenuOpt::kViewLogConsole, { kCtrlShiftKey, GDK_KEY_l });
+        m_mb.AppendItem("_Registers", MenuOpt::kViewRegisters, { kCtrlShiftKey, GDK_KEY_r });
+        m_mb.AppendItem("_Watch", MenuOpt::kViewWatch, { kCtrlShiftKey, GDK_KEY_w });
+    m_mb.PopSubmenu();
+
+    m_mb.PushSubmenu("_Debug");
+        m_mb.AppendItem("_Run", MenuOpt::kDebugRun);
+        m_mb.AppendItem("Run _Without Debugging", MenuOpt::kDebugRunWithoutDebugging);
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("_Break", MenuOpt::kDebugBreak);
+        m_mb.AppendItem("_Continue", MenuOpt::kDebugContinue);
+        m_mb.AppendItem("_Step Over", MenuOpt::kDebugStepOver);
+        m_mb.AppendItem("Step _In", MenuOpt::kDebugStepIn);
+        m_mb.AppendItem("Step _Out", MenuOpt::kDebugStepOut);
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("E_xport Dump", MenuOpt::kDebugExportDump);
+    m_mb.PopSubmenu();
+
+    m_mb.PushSubmenu("_Help");
+        m_mb.AppendItem("_Debugger Manual", MenuOpt::kHelpDebuggerManual);
+        m_mb.AppendItem("_R5900 Manual", MenuOpt::kHelpR5900Manual);
+        
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("_About", MenuOpt::kHelpAbout);
+    m_mb.PopSubmenu();
 }
 
 void MainWindow::SetupHeaderBar() {
@@ -74,29 +172,6 @@ void MainWindow::SetupHeaderBar() {
 
     UI::Image app_icon("icon.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
-
-    m_mb.PushSubmenu("_Session");
-        m_mb.AppendItem("_New");
-        m_mb.AppendItem("_Open");
-        
-        m_mb.AppendSeparator();
-        m_mb.PushSubmenu("Recent _Executables");
-            m_mb.AppendItem(R"(_1 C:\projects\game\zx-debug.elf)");
-            m_mb.AppendItem(R"(_2 C:\projects\zx-buster\zx-release.elf)");
-        m_mb.PopSubmenu();
-        m_mb.AppendSeparator();
-        
-        m_mb.AppendItem("E_xit", 0);
-    m_mb.PopSubmenu();
-
-    m_mb.PushSubmenu("_View");
-        m_mb.AppendItem("Breakpoints");
-        m_mb.AppendItem("Disassembly");
-        m_mb.AppendItem("Memory");
-        m_mb.AppendItem("Log Console");
-        m_mb.AppendItem("Registers");
-        m_mb.AppendItem("Watch");
-    m_mb.PopSubmenu();
 
     header.Add(app_icon);
     header.Add(m_mb);
@@ -138,17 +213,19 @@ void MainWindow::SetupCustomStyle() {
     )");
 
     // Set default font family
-#if defined(__MINGW32__) || defined(_WIN32)
-    auto font_style = "* { font-family: 'Segoe UI'; font-size: 14px; }";
-#else
-    auto font_style = "* { font-family: 'Noto Sans'; font-size: 14px; }";
-#endif
+    auto font_style = "* { font-family: 'Noto Sans'; font-size: 12.7px; }";
     UI::Widget::GlobalEvalCSS(font_style);
 }
 
 MainWindow::MainWindow() {
     Resize(kInitWidth, kInitHeight);
     
+    SetupMenuBar();
     SetupHeaderBar();
     SetupCustomStyle();
+}
+
+bool MainWindow::Close() {
+    // TODO: Implement ConfirmShutdownDialog
+    return Window::Close();
 }

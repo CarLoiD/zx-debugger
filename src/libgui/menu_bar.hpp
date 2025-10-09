@@ -19,14 +19,28 @@
 #ifndef LIBGUI_MENU_BAR_HPP_
 #define LIBGUI_MENU_BAR_HPP_
 
+#include <functional>
 #include <vector>
+
 #include "widget.hpp"
 
 namespace UI {
 
+class Window;
+
 class MenuBar : public Widget {
 public:
-    using OnCommandCallback = void(*)(s32 id);
+    struct AccelKey {
+        u32 mods;
+        u32 key;
+
+        AccelKey();
+        AccelKey(u32 key);
+        AccelKey(u32 mods, u32 key);
+
+        // Implicit conversion operator to check if properly initialized
+        operator bool() const;
+    };
 
 private:
     // Used to navigate through submenu data in a linear way
@@ -45,26 +59,42 @@ public:
     MenuBar();
     ~MenuBar();
 
+    void RegisterAccelGroup(Window& window);
+
     void PushSubmenu(std::string_view label);
     void PopSubmenu();
-    
+
     // Instead of manually assigning callbacks for each submenu item,
     // Each submenu will have it's ID, with only a single callback bound via
     // SetOnCommandCallback(), each submenu has it's activate signal set so
     // that it calls the command callback with the item id, if valid.
-    void AppendItem(std::string_view label, const s32 id = -1);
+    void AppendItem(std::string_view label, const s32 id = -1, const AccelKey& keybind = {});
     void AppendSeparator();
-    
-    void SetOnCommandCallback(OnCommandCallback cb);
+
+    template <typename Callable>
+    void SetOnCommandCallback(Callable&& cb) {
+        m_cb = std::forward<Callable>(cb);
+    }
+
+    template <typename T>
+    void SetOnCommandCallback(T* instance, void (T::*method)(s32)) {
+        m_cb = [instance, method](s32 id) {
+            (instance->*method)(id);
+        };
+    }
 
     Widget& operator[](const size_t index); 
 
 private:
     GtkMenuBar* m_mb;
 
+    bool m_registered_accel;
+    GtkAccelGroup* m_accel_group;
+
     std::vector<SubmenuHolder> m_holder;
     std::vector<SubmenuContext> m_stack;
-    OnCommandCallback m_cb;
+
+    std::function<void(s32)> m_cb;
 };
 
 } // namespace UI

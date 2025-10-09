@@ -39,6 +39,7 @@ Application::Application(int argc, char* argv[], const bool dark_theme)
 {
     m_app = gtk_application_new(kPackageName, G_APPLICATION_DEFAULT_FLAGS);
     
+    // Register the application in order to construct windows at demand before Run()
     GError* error = nullptr;
     if (!g_application_register(G_APPLICATION(m_app), nullptr, &error)) {
         ASSERT(!error, error->message);
@@ -46,7 +47,6 @@ Application::Application(int argc, char* argv[], const bool dark_theme)
     }
 
     g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", dark_theme, nullptr);
-
     g_app = m_app;
 }
 
@@ -59,6 +59,15 @@ int Application::Run(UI::Window& wnd) {
         UI::Window* window = static_cast<UI::Window*>(udata);
         window->ShowAll();
     }), &wnd);
+
+    // Needed in order to detect ALT+F4
+    g_signal_connect(
+        GTK_WINDOW(wnd.GetHandle()), 
+        "delete-event",
+        G_CALLBACK(+[](GtkWidget*, GdkEvent*, gpointer udata) -> bool {
+            UI::Window* window = static_cast<UI::Window*>(udata);
+            return window->Close();
+        }), &wnd);
 
     return g_application_run(G_APPLICATION(m_app), m_argc, m_argv); 
 }
