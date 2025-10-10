@@ -13,23 +13,28 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: label.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
+#ifndef LIBGUI_LABEL_HPP_
+#define LIBGUI_LABEL_HPP_
 
-// base
-#include "base/assert.hpp"
+#include "widget.hpp"
 
-// libgui
-#include "application.hpp"
-#include "box.hpp"
-#include "button.hpp"
-#include "header_bar.hpp"
-#include "image.hpp"
-#include "label.hpp"
-#include "menu_bar.hpp"
-#include "window.hpp"
+namespace UI {
 
-#endif // LIBGUI_INCLUDE_HPP_
+class Label : public Widget {
+public:
+    Label();
+    Label(std::string_view text);
+    ~Label();
+
+    void SetText(std::string_view text);
+
+private:
+    GtkLabel* m_label;
+};
+
+} // namespace UI
+
+#endif // LIBGUI_LABEL_HPP_

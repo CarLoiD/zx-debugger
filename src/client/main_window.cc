@@ -247,12 +247,37 @@ void MainWindow::SetupCustomStyle() {
     UI::Widget::GlobalEvalCSS(font_style);
 }
 
+void MainWindow::SetupArea() {
+    UI::Label placeholder("MAIN AREA (PLACEHOLDER)");
+    placeholder.SetExpand(true, true);
+
+    m_vbox.Add(placeholder);
+}
+
+void MainWindow::SetupStatusBar() {
+    Widget sb(gtk_statusbar_new());
+    sb.SetMargin(0);
+    sb.LocalEvalCSS("statusbar { background: #007acc; color: white; }");
+    sb.LocalEvalCSS("statusbar { padding-left: 8px; }");
+
+    int ctx = gtk_statusbar_get_context_id(GTK_STATUSBAR(sb.GetHandle()), "main");
+    gtk_statusbar_pop(GTK_STATUSBAR(sb.GetHandle()), ctx);
+    gtk_statusbar_push(GTK_STATUSBAR(sb.GetHandle()), ctx, "Ready");
+
+    m_vbox.Add(sb);
+}
+
 MainWindow::MainWindow() {
     Resize(kInitWidth, kInitHeight);
     
+    // Attach main vertical container
+    Add(m_vbox);
+
     SetupMenuBar();
     SetupHeaderBar();
     SetupCustomStyle();
+    SetupArea();
+    SetupStatusBar();
 }
 
 bool MainWindow::Close() {

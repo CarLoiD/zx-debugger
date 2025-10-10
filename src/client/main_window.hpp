@@ -27,6 +27,8 @@ private:
     void SetupMenuBar();
     void SetupHeaderBar();
     void SetupCustomStyle();
+    void SetupArea();
+    void SetupStatusBar();
 
 public:
     MainWindow();
@@ -36,6 +38,7 @@ public:
 
 private:
     UI::MenuBar m_mb;
+    UI::VBox m_vbox;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

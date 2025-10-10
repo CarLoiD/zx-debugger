@@ -37,6 +37,10 @@ Application::Application(int argc, char* argv[], const bool dark_theme)
     , m_argc(argc)
     , m_argv(argv)
 {
+    // Need GTK3.6+ in order to support widget tick callbacks for smooth animations
+    ASSERT(gtk_get_major_version() >= 3, "GTK major version less than 3");
+    ASSERT(gtk_get_minor_version() >= 6, "GTK minor version less than 6");
+
     m_app = gtk_application_new(kPackageName, G_APPLICATION_DEFAULT_FLAGS);
     
     // Register the application in order to construct windows at demand before Run()

@@ -13,23 +13,48 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: box.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
+#ifndef LIBGUI_BOX_HPP_
+#define LIBGUI_BOX_HPP_
 
-// base
-#include "base/assert.hpp"
+#include "widget.hpp"
 
-// libgui
-#include "application.hpp"
-#include "box.hpp"
-#include "button.hpp"
-#include "header_bar.hpp"
-#include "image.hpp"
-#include "label.hpp"
-#include "menu_bar.hpp"
-#include "window.hpp"
+namespace UI {
 
-#endif // LIBGUI_INCLUDE_HPP_
+enum class BoxOrientation {
+    kHorizontal,
+    kVertical,
+};
+
+class Box : public Widget {
+public:
+    Box() = delete;
+    Box(const BoxOrientation& orientation);
+    ~Box();
+
+    void SetOpt(const bool expand, const bool fill);
+    void SetSpacing(s32 spacing);
+    void Add(Widget& child) override;
+
+private:
+    GtkBox* m_box;
+
+    bool m_expand;
+    bool m_fill;
+};
+
+class HBox : public Box {
+public:
+    HBox() : Box(BoxOrientation::kHorizontal) {}
+};
+
+class VBox : public Box {
+public:
+    VBox() : Box(BoxOrientation::kVertical) {}
+};
+
+} // namespace UI
+
+#endif // LIBGUI_BOX_HPP_

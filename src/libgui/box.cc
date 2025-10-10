@@ -13,23 +13,37 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: box.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
-
-// base
-#include "base/assert.hpp"
-
-// libgui
-#include "application.hpp"
 #include "box.hpp"
-#include "button.hpp"
-#include "header_bar.hpp"
-#include "image.hpp"
-#include "label.hpp"
-#include "menu_bar.hpp"
-#include "window.hpp"
 
-#endif // LIBGUI_INCLUDE_HPP_
+namespace UI {
+
+Box::Box(const BoxOrientation& orientation) {
+    m_handle = gtk_box_new(static_cast<GtkOrientation>(orientation), 0);
+    g_object_ref_sink(m_handle);
+
+    m_box = GTK_BOX(m_handle);
+
+    m_expand = false;
+    m_fill = false;
+}
+
+Box::~Box() {}
+
+void Box::SetOpt(const bool expand, const bool fill) {
+    m_expand = expand;
+    m_fill = fill;
+}
+
+void Box::SetSpacing(s32 spacing) {
+    gtk_box_set_spacing(m_box, spacing);
+}
+
+void Box::Add(Widget& child) {
+    gtk_box_pack_start(m_box, child.GetHandle(), m_expand, m_fill, 0);
+    SetOpt(false, false);
+}
+
+} // namespace UI
