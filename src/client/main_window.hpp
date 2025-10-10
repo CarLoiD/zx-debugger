@@ -39,6 +39,7 @@ public:
 private:
     UI::MenuBar m_mb;
     UI::VBox m_vbox;
+    UI::StatusBar m_status;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

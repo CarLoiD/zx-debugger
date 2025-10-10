@@ -20,10 +20,9 @@
 
 namespace UI {
 
-Label::Label() {
-    m_handle = gtk_label_new(nullptr);
-    g_object_ref_sink(m_handle);
-
+Label::Label()
+    : Widget(gtk_label_new(nullptr))
+{
     m_label = GTK_LABEL(m_handle);
 }
 
@@ -32,8 +31,6 @@ Label::Label(std::string_view text)
 {
     SetText(text);
 }
-
-Label::~Label() {}
 
 void Label::SetText(std::string_view text) {
     gtk_label_set_text(m_label, text.data());

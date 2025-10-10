@@ -39,10 +39,10 @@ public:
     static void GlobalEvalCSS(std::string_view expression);
 
 public:
-    Widget();
+    Widget() = delete; // Force wrappers to be impl. using Widget(GtkWidget*) constructor
     Widget(GtkWidget* handle);
     virtual ~Widget();
-    
+
     void SetMarginX(const int offset);
     void SetMarginY(const int offset);
     void SetMargin(const MarginMask::Options& mask, const int offset);
@@ -53,11 +53,11 @@ public:
     void SetVisible(const bool visible);
     void Show();
     void Hide();
-    
+
     void SetEnabled(const bool enabled);
     void Enable();
     void Disable();
-    
+
     void ShowAll();
 
     // Widget instance is used as context

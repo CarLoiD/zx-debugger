@@ -29,6 +29,7 @@ zx_cc_binary(
         "../libgui/image.cc"
         "../libgui/label.cc"
         "../libgui/menu_bar.cc"
+        "../libgui/status_bar.cc"
         "../libgui/widget.cc"
         "../libgui/window.cc"
         "main.cc"

@@ -17,47 +17,34 @@
 // ---------------------------------------------------------------------------
 
 #include "image.hpp"
-#include "base/assert.hpp"
 
 namespace UI {
 
-Image::Image() {
-    m_handle = gtk_image_new();
-    g_object_ref_sink(m_handle);
-
+Image::Image() 
+    : Widget(gtk_image_new())
+{
     m_image = GTK_IMAGE(m_handle);
 }
 
-Image::Image(std::string_view file_path, s32 req_width, s32 req_height) {
-    m_handle = gtk_image_new_from_file(file_path.data());
-    g_object_ref_sink(m_handle);
-
-    m_image = GTK_IMAGE(m_handle);
-
+Image::Image(std::string_view file_path, s32 req_width, s32 req_height)
+    : Image()
+{
+    SetFromFile(file_path);
     RequestSize(req_width, req_height);
 }
 
-Image::Image(std::string_view icon_name, const IconSize& size) {
-    m_handle = gtk_image_new_from_icon_name(
-        icon_name.data(),
-        static_cast<GtkIconSize>(size));
-
-    g_object_ref_sink(m_handle);
-    m_image = GTK_IMAGE(m_handle);
+Image::Image(std::string_view icon_name, const IconSize& size)
+    : Image() 
+{
+    SetFromIconName(icon_name, size);
 }
 
-Image::~Image() {}
-
 void Image::SetFromFile(std::string_view file_path) {
-    ASSERT_PTR(m_image);
-
     gtk_image_clear(m_image);
     gtk_image_set_from_file(m_image, file_path.data());
 }
 
 void Image::SetFromIconName(std::string_view icon_name, const IconSize& size) {
-    ASSERT_PTR(m_image);
-
     gtk_image_clear(m_image);
     gtk_image_set_from_icon_name(
         m_image,

@@ -34,7 +34,10 @@ Color::Color(u8 r, u8 g, u8 b, u8 a) {
 }
 
 Color::Color(u32 wcolor) {
-    // TBD
+    a = (wcolor & 0xFF000000) >> 24;
+    r = (wcolor & 0x00FF0000) >> 16;
+    g = (wcolor & 0x0000FF00) >> 8;
+    b = (wcolor & 0x000000FF);
 }
 
 GdkRGBA Color::GetGdkColor() const {

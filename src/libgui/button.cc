@@ -17,37 +17,27 @@
 // ---------------------------------------------------------------------------
 
 #include "button.hpp"
-#include "base/assert.hpp"
 
 namespace UI {
 
-Button::Button() {
-    m_handle = gtk_button_new();
-
-    g_object_ref_sink(m_handle);
+Button::Button()
+    : Widget(gtk_button_new())
+{
     m_btn = GTK_BUTTON(m_handle);
 }
 
-Button::Button(std::string_view label, const bool use_mnemonics) {
-    if (use_mnemonics) {
-        m_handle = gtk_button_new_with_mnemonic(label.data());
-    } else {
-        m_handle = gtk_button_new_with_label(label.data());
-    }
-
-    g_object_ref_sink(m_handle);
-    m_btn = GTK_BUTTON(m_handle);
+Button::Button(std::string_view label, const bool use_mnemonics)
+    : Button() 
+{
+    SetLabel(label, use_mnemonics);
 }
 
 void Button::SetLabel(std::string_view label, const bool use_mnemonics) {
-    ASSERT_PTR(m_btn);
-
     gtk_button_set_use_underline(m_btn, use_mnemonics);
     gtk_button_set_label(m_btn, label.data());
 }
 
 std::string_view Button::GetLabel() const {
-    ASSERT_PTR(m_btn);
     return std::string_view(gtk_button_get_label(m_btn));
 }
 

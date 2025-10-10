@@ -27,7 +27,6 @@ class Label : public Widget {
 public:
     Label();
     Label(std::string_view text);
-    ~Label();
 
     void SetText(std::string_view text);
 

@@ -33,10 +33,6 @@ void Widget::GlobalEvalCSS(std::string_view expression) {
     g_object_unref(provider);
 }
 
-Widget::Widget()
-    : m_handle(nullptr)
-{}
-
 Widget::Widget(GtkWidget* handle) {
     m_handle = handle;
     g_object_ref_sink(m_handle);

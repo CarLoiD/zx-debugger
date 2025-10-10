@@ -42,18 +42,13 @@ MenuBar::AccelKey::operator bool() const {
 }
 
 MenuBar::MenuBar()
-    : m_registered_accel(false)
+    : Widget(gtk_menu_bar_new())
+    , m_registered_accel(false)
 {
-    m_handle = gtk_menu_bar_new();
-    g_object_ref_sink(m_handle);
-
     m_accel_group = gtk_accel_group_new();
-
     m_cb = nullptr;
     m_mb = GTK_MENU_BAR(m_handle);
 }
-
-MenuBar::~MenuBar() {}
 
 void MenuBar::RegisterAccelGroup(Window& window) {
     ASSERT_PTR(window.GetHandle());
@@ -140,10 +135,6 @@ void MenuBar::AppendSeparator() {
     GtkWidget* item = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(m_stack.back().menu), item);
     gtk_widget_show(item);
-}
-
-Widget& MenuBar::operator[](const size_t index) {
-    return *this;
 }
 
 } // namespace UI

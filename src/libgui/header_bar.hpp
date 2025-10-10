@@ -26,7 +26,6 @@ namespace UI {
 class HeaderBar : public Widget {
 public:
     HeaderBar();
-    ~HeaderBar();
 
     void SetShowCloseButton(const bool show);
     void SetTitle(std::string_view title);

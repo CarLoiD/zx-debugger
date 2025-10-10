@@ -57,7 +57,6 @@ private:
 
 public:
     MenuBar();
-    ~MenuBar();
 
     void RegisterAccelGroup(Window& window);
 

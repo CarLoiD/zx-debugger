@@ -13,39 +13,37 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: image.hpp
+// File: status_bar.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_IMAGE_HPP_
-#define LIBGUI_IMAGE_HPP_
+#ifndef LIBGUI_STATUS_BAR_HPP_
+#define LIBGUI_STATUS_BAR_HPP_
+
+#include <vector>
 
 #include "widget.hpp"
+#include "color.hpp"
 
 namespace UI {
 
-enum class IconSize {
-    kInvalid = 0,
-    kMenu = 1,          //< 16px
-    kSmallToolbar = 2,  //< 16px
-    kLargeToolbar = 3,  //< 24px
-    kButton = 4,        //< 16px
-    kDragAndDrop = 5,   //< 32px
-    kDialog = 6,        //< 48px
-};
-
-class Image : public Widget {
+class StatusBar : public Widget {
 public:
-    Image();
-    Image(std::string_view file_path, s32 req_width = -1, s32 req_height = -1);
-    Image(std::string_view icon_name, const IconSize& size);
+    StatusBar();
 
-    void SetFromFile(std::string_view file_path);
-    void SetFromIconName(std::string_view icon_name, const IconSize& size);
+    void AddColor(const Color& color);
+    void DeleteColor(const size_t index);
+
+    void SetText(std::string_view text);
+    void SetText(std::string_view text, const size_t color_index, const bool animate = false);
+    void SetColor(const size_t color_index, const bool animate = false);
 
 private:
-    GtkImage* m_image;
+    GtkStatusbar* m_bar;
+
+    std::vector<Color> m_colors;
+    size_t m_active_color;
 };
 
 } // namespace UI
 
-#endif // LIBGUI_IMAGE_HPP_
+#endif // LIBGUI_STATUS_BAR_HPP_

@@ -30,6 +30,7 @@
 #include "image.hpp"
 #include "label.hpp"
 #include "menu_bar.hpp"
+#include "status_bar.hpp"
 #include "window.hpp"
 
 #endif // LIBGUI_INCLUDE_HPP_

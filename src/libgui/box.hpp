@@ -32,7 +32,6 @@ class Box : public Widget {
 public:
     Box() = delete;
     Box(const BoxOrientation& orientation);
-    ~Box();
 
     void SetOpt(const bool expand, const bool fill);
     void SetSpacing(s32 spacing);

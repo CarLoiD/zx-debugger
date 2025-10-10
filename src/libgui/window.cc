@@ -23,44 +23,32 @@
 
 namespace UI {
 
-Window::Window() {
-    GtkApplication* app = Application::GetDefault();
-    ASSERT_PTR(app);
-
-    m_handle = gtk_application_window_new(app);
-    g_object_ref_sink(m_handle);
-
+Window::Window() 
+    : Widget(gtk_application_window_new(Application::GetDefault()))
+{
     m_wnd = GTK_WINDOW(m_handle);
     Resize(300, 200);
 }
 
-Window::~Window() {}
-
 void Window::SetHeaderBar(HeaderBar& bar) {
-    ASSERT_PTR(m_wnd);
     gtk_window_set_titlebar(m_wnd, bar.GetHandle());
 }
 
 void Window::SetTitle(std::string_view new_title) {
-    ASSERT_PTR(m_wnd);
     gtk_window_set_title(m_wnd, new_title.data());
 }
 
 void Window::Resize(int new_width, int new_height) {
-    ASSERT_PTR(m_wnd);
     gtk_window_set_default_size(m_wnd, new_width, new_height);
 }
 
 bool Window::Close() {
-    ASSERT_PTR(m_wnd);
     gtk_window_close(m_wnd);
     return false;
 }
 
 void Window::Add(Widget& child) {
-    ASSERT_PTR(m_handle);
     ASSERT_PTR(child.GetHandle());
-
     gtk_container_add(GTK_CONTAINER(m_handle), child.GetHandle());
 }
 

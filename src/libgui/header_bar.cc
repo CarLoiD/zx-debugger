@@ -21,10 +21,9 @@
 
 namespace UI {
 
-HeaderBar::HeaderBar() {
-    m_handle = gtk_header_bar_new();
-    g_object_ref_sink(m_handle);
-
+HeaderBar::HeaderBar()
+    : Widget(gtk_header_bar_new())
+{
     m_header_bar = GTK_HEADER_BAR(m_handle);
 
     // Default behavior is to have a functional close button on the header bar
@@ -33,22 +32,16 @@ HeaderBar::HeaderBar() {
     SetMarginY(0);
 }
 
-HeaderBar::~HeaderBar() {}
-
 void HeaderBar::SetShowCloseButton(const bool show) {
-    ASSERT_PTR(m_header_bar);
     gtk_header_bar_set_show_close_button(m_header_bar, show);
 }
 
 void HeaderBar::SetTitle(std::string_view title) {
-    ASSERT_PTR(m_header_bar);
     gtk_header_bar_set_title(m_header_bar, title.data());
 }
 
 void HeaderBar::Add(Widget& child) {
-    ASSERT_PTR(m_header_bar);
     ASSERT_PTR(child.GetHandle());
-
     gtk_header_bar_pack_start(m_header_bar, child.GetHandle());
 }
 

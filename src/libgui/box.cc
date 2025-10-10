@@ -20,17 +20,13 @@
 
 namespace UI {
 
-Box::Box(const BoxOrientation& orientation) {
-    m_handle = gtk_box_new(static_cast<GtkOrientation>(orientation), 0);
-    g_object_ref_sink(m_handle);
-
+Box::Box(const BoxOrientation& orientation) 
+    : Widget(gtk_box_new(static_cast<GtkOrientation>(orientation), 0))
+{
     m_box = GTK_BOX(m_handle);
-
     m_expand = false;
     m_fill = false;
 }
-
-Box::~Box() {}
 
 void Box::SetOpt(const bool expand, const bool fill) {
     m_expand = expand;
