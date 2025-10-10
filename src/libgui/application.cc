@@ -64,7 +64,7 @@ int Application::Run(UI::Window& wnd) {
         window->ShowAll();
     }), &wnd);
 
-    // Needed in order to detect ALT+F4
+    // Needed in order to detect quit events
     g_signal_connect(
         GTK_WINDOW(wnd.GetHandle()), 
         "delete-event",
