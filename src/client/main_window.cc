@@ -24,19 +24,20 @@ constexpr u32 kInitHeight = 720;
 struct MenuId {
     enum Options : s32 {
         // File
-        kFileNew = 0,
-        kFileOpen,
-        kFileRecentExec1,
-        kFileRecentExec2,
-        kFileRecentExec3,
-        kFileRecentExec4,
-        kFileRecentExec5,
-        kFileRecentSession1,
-        kFileRecentSession2,
-        kFileRecentSession3,
-        kFileRecentSession4,
-        kFileRecentSession5,
-        kFileExit,
+        kSessionNew = 0,
+        kSessionOpen,
+        kSessionRecentExec1,
+        kSessionRecentExec2,
+        kSessionRecentExec3,
+        kSessionRecentExec4,
+        kSessionRecentExec5,
+        kSessionRecentSession1,
+        kSessionRecentSession2,
+        kSessionRecentSession3,
+        kSessionRecentSession4,
+        kSessionRecentSession5,
+        kSessionSettings,
+        kSessionExit,
 
         // View
         kViewAppearanceFullScreen,
@@ -74,27 +75,27 @@ using MenuOpt = MenuId::Options;
 void MainWindow::OnMenuCommand(s32 id) {
     MenuOpt opt = static_cast<MenuOpt>(id);
     switch (opt) {
-        case MenuOpt::kFileNew:
+        case MenuOpt::kSessionNew:
         break;
 
-        case MenuOpt::kFileOpen:
+        case MenuOpt::kSessionOpen:
         break;
 
-        case MenuOpt::kFileRecentExec1:
-        case MenuOpt::kFileRecentExec2:
-        case MenuOpt::kFileRecentExec3:
-        case MenuOpt::kFileRecentExec4:
-        case MenuOpt::kFileRecentExec5:
+        case MenuOpt::kSessionRecentExec1:
+        case MenuOpt::kSessionRecentExec2:
+        case MenuOpt::kSessionRecentExec3:
+        case MenuOpt::kSessionRecentExec4:
+        case MenuOpt::kSessionRecentExec5:
         break;
         
-        case MenuOpt::kFileRecentSession1:
-        case MenuOpt::kFileRecentSession2:
-        case MenuOpt::kFileRecentSession3:
-        case MenuOpt::kFileRecentSession4:
-        case MenuOpt::kFileRecentSession5:
+        case MenuOpt::kSessionRecentSession1:
+        case MenuOpt::kSessionRecentSession2:
+        case MenuOpt::kSessionRecentSession3:
+        case MenuOpt::kSessionRecentSession4:
+        case MenuOpt::kSessionRecentSession5:
         break;
 
-        case MenuOpt::kFileExit:
+        case MenuOpt::kSessionExit:
             Close();
         break;
 
@@ -114,8 +115,8 @@ void MainWindow::SetupMenuBar() {
     m_mb.SetOnCommandCallback(this, &MainWindow::OnMenuCommand);
 
     m_mb.PushSubmenu("_Session");
-        m_mb.AppendItem("_New...", MenuOpt::kFileNew, { kCtrlKey, GDK_KEY_n });
-        m_mb.AppendItem("_Open...", MenuOpt::kFileOpen, { kCtrlKey, GDK_KEY_o });
+        m_mb.AppendItem("_New...", MenuOpt::kSessionNew, { kCtrlKey, GDK_KEY_n });
+        m_mb.AppendItem("_Open...", MenuOpt::kSessionOpen, { kCtrlKey, GDK_KEY_o });
         
         m_mb.AppendSeparator();
         m_mb.PushSubmenu("Recent _Executables");
@@ -127,9 +128,12 @@ void MainWindow::SetupMenuBar() {
             // TODO: Implement MainWindow::FillRecentSessionItems()
             m_mb.AppendItem(R"(_1 C:\projects\game\zx-debug.zds)");
         m_mb.PopSubmenu();
+
         m_mb.AppendSeparator();
-        
-        m_mb.AppendItem("E_xit", MenuOpt::kFileExit, { kAltKey, GDK_KEY_F4 });
+        m_mb.AppendItem("Settin_gs...", MenuOpt::kSessionSettings);
+
+        m_mb.AppendSeparator();
+        m_mb.AppendItem("E_xit", MenuOpt::kSessionExit, { kAltKey, GDK_KEY_F4 });
     m_mb.PopSubmenu();
     
     // TODO: Edit submenu
@@ -216,7 +220,7 @@ void MainWindow::SetupCustomStyle() {
 
         headerbar:backdrop {
             background: #222222;
-            color: #cccccc;
+            color: white;
         }
     )");
     
@@ -228,17 +232,40 @@ void MainWindow::SetupCustomStyle() {
     UI::Widget::GlobalEvalCSS(R"(
         menubar, menu, menu popup, menuitem {
             box-shadow: none;
+        }
+
+        window.menu,
+        window.menu.background,
+        decoration {
+            background: transparent;
+            box-shadow: none;
             border: none;
         }
 
         menu {
-            padding-top: 4px;
-            padding-bottom: 4px;
+            padding: 4px;
+            border-radius: 6px;
+            border: 1px solid #444; 
+            background: #222;
+        }
+
+        separator {
+            background: #444;
+            padding-left: 0px;
+            padding-right: 0px;
         }
 
         menuitem {
             padding-left: 8px;
             padding-right: 8px;
+            border-radius: 6px;
+        }
+        
+        /* Set the backdrop so that it doesn't glitch when out of focus */
+        menuitem:backdrop {
+            background: #222222;
+            color: white;
+            border-radius: 0px;
         }
     )");
 
