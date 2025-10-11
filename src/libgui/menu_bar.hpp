@@ -29,19 +29,6 @@ namespace UI {
 class Window;
 
 class MenuBar : public Widget {
-public:
-    struct AccelKey {
-        u32 mods;
-        u32 key;
-
-        AccelKey();
-        AccelKey(u32 key);
-        AccelKey(u32 mods, u32 key);
-
-        // Implicit conversion operator to check if properly initialized
-        operator bool() const;
-    };
-
 private:
     // Used to navigate through submenu data in a linear way
     struct SubmenuHolder {
