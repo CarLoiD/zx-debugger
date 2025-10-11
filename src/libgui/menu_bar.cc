@@ -22,39 +22,11 @@
 
 namespace UI {
 
-MenuBar::AccelKey::AccelKey()
-    : mods(0)
-    , key(0)
-{}
-
-MenuBar::AccelKey::AccelKey(u32 key) {
-    this->mods = 0;
-    this->key = key;
-}
-
-MenuBar::AccelKey::AccelKey(u32 mods, u32 key) {
-    this->mods = mods;
-    this->key = key;
-}
-
-MenuBar::AccelKey::operator bool() const {
-    return this->key != 0;
-}
-
 MenuBar::MenuBar()
     : Widget(gtk_menu_bar_new())
-    , m_registered_accel(false)
 {
-    m_accel_group = gtk_accel_group_new();
     m_cb = nullptr;
     m_mb = GTK_MENU_BAR(m_handle);
-}
-
-void MenuBar::RegisterAccelGroup(Window& window) {
-    ASSERT_PTR(window.GetHandle());
-
-    gtk_window_add_accel_group(GTK_WINDOW(window.GetHandle()), m_accel_group);
-    m_registered_accel = true;
 }
 
 void MenuBar::PushSubmenu(std::string_view label) {
@@ -87,7 +59,6 @@ void MenuBar::PopSubmenu() {
 
 void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& keybind) {
     ASSERT(!(id >= 0 && !m_cb), "Trying to append valid id without cmd callback");
-    ASSERT(!(keybind && !m_registered_accel), "Keybind set without previous register");
     ASSERT(!m_stack.empty(), "Trying to append item to inactive submenu stack");
 
     // callback should be a pointer to a function of signature void (*)(s32)

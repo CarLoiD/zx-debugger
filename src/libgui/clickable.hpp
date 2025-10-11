@@ -28,9 +28,13 @@ namespace UI {
 
 class Clickable {
 public:
+    Clickable() : m_clickable_widget(nullptr) {}
+
     // Pointer to member function (method) version
     template <typename T>
     void SetOnClickCallback(T* instance, void (T::*method)()) {
+        ASSERT(m_clickable_widget, "m_clickable_widget was nullptr");
+
         // The callback need non scoped data in order to call the method later
         struct Data {
             T* instance;
@@ -44,7 +48,7 @@ public:
 
         // Pass data and set closure to delete the data when widget is destroyed
         g_signal_connect_data(
-            GetGtkWidget(),
+            m_clickable_widget,
             "clicked",
             G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
                 auto* thiz = static_cast<Data*>(user_data);
@@ -58,6 +62,8 @@ public:
     // Functor version
     template <typename Callable>
     void SetOnClickCallback(Callable&& cb) {
+        ASSERT(m_clickable_widget, "m_clickable_widget was nullptr");
+
         // Clean functor type that can be allocated
         using Functor = std::decay_t<Callable>;
 
@@ -65,7 +71,7 @@ public:
         auto* udata = new Functor(std::forward<Callable>(cb));
 
         g_signal_connect_data(
-            GetGtkWidget(),
+            m_clickable_widget,
             "clicked",
             G_CALLBACK(+[](GtkWidget*, gpointer user_data) {
                 auto* f = static_cast<Functor*>(user_data);
@@ -77,7 +83,7 @@ public:
     }
 
 protected:
-    virtual GtkWidget* GetGtkWidget() const = 0;
+    GtkWidget* m_clickable_widget;
 };
 
 } // namespace UI

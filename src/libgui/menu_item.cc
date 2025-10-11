@@ -13,33 +13,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: button.cc
+// File: menu_item.cc
 // ---------------------------------------------------------------------------
 
-#include "button.hpp"
+#include "menu_item.hpp"
+#include "box.hpp"
+#include "image.hpp"
 
 namespace UI {
 
-Button::Button()
-    : Widget(gtk_button_new())
-{
-    m_btn = GTK_BUTTON(m_handle);
-    m_clickable_widget = m_handle; // Better cost than virtual function call on every SetOnClick...
+MenuItem::AccelKey::AccelKey()
+    : mods(0)
+    , key(0)
+{}
+
+MenuItem::AccelKey::AccelKey(u32 key) {
+    this->mods = 0;
+    this->key = key;
 }
 
-Button::Button(std::string_view text, const bool use_mnemonics)
-    : Button() 
-{
-    SetText(text, use_mnemonics);
+MenuItem::AccelKey::AccelKey(u32 mods, u32 key) {
+    this->mods = mods;
+    this->key = key;
 }
 
-void Button::SetText(std::string_view text, const bool use_mnemonics) {
-    gtk_button_set_use_underline(m_btn, use_mnemonics);
-    gtk_button_set_text(m_btn, label.data());
-}
-
-std::string_view Button::GetText() const {
-    return std::string_view(gtk_button_get_text(m_btn));
+MenuItem::AccelKey::operator bool() const {
+    return this->key != 0;
 }
 
 } // namespace UI

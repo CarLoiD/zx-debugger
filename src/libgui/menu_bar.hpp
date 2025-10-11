@@ -26,6 +26,7 @@
 
 namespace UI {
 
+class MenuItem;
 class Window;
 
 class MenuBar : public Widget {
@@ -45,8 +46,6 @@ private:
 public:
     MenuBar();
 
-    void RegisterAccelGroup(Window& window);
-
     void PushSubmenu(std::string_view label);
     void PopSubmenu();
 
@@ -54,7 +53,8 @@ public:
     // Each submenu will have it's ID, with only a single callback bound via
     // SetOnCommandCallback(), each submenu has it's activate signal set so
     // that it calls the command callback with the item id, if valid.
-    void AppendItem(std::string_view label, const s32 id = -1, const AccelKey& keybind = {});
+    void AppendItem(MenuItem& item, const s32 id = -1, const AccelKey& keybind = {});
+    void AppendCheckItem();
     void AppendSeparator();
 
     template <typename Callable>
@@ -73,9 +73,6 @@ public:
 
 private:
     GtkMenuBar* m_mb;
-
-    bool m_registered_accel;
-    GtkAccelGroup* m_accel_group;
 
     std::vector<SubmenuHolder> m_holder;
     std::vector<SubmenuContext> m_stack;

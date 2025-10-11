@@ -27,6 +27,8 @@ Window::Window()
     : Widget(gtk_application_window_new(Application::GetDefault()))
 {
     m_wnd = GTK_WINDOW(m_handle);
+
+    gtk_window_add_accel_group(m_wnd, Application::GetAccelGroup()); // Register
     Resize(300, 200);
 }
 

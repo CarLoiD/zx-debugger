@@ -13,33 +13,25 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: button.cc
+// File: accelerator_target.cc
 // ---------------------------------------------------------------------------
 
-#include "button.hpp"
+#include <regex>
+#include <string>
+
+#include "accelerator_target.hpp"
+#include "application.hpp"
+#include "base/assert.hpp"
 
 namespace UI {
 
-Button::Button()
-    : Widget(gtk_button_new())
-{
-    m_btn = GTK_BUTTON(m_handle);
-    m_clickable_widget = m_handle; // Better cost than virtual function call on every SetOnClick...
-}
+AcceleratorTarget::AcceleratorTarget()
+    : m_item(nullptr)
+    , m_active(false)
+{}
 
-Button::Button(std::string_view text, const bool use_mnemonics)
-    : Button() 
-{
-    SetText(text, use_mnemonics);
-}
-
-void Button::SetText(std::string_view text, const bool use_mnemonics) {
-    gtk_button_set_use_underline(m_btn, use_mnemonics);
-    gtk_button_set_text(m_btn, label.data());
-}
-
-std::string_view Button::GetText() const {
-    return std::string_view(gtk_button_get_text(m_btn));
+void AcceleratorTarget::SetKeybind(std::string_view keybind) {
+    
 }
 
 } // namespace UI

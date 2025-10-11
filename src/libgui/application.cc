@@ -32,8 +32,13 @@ GtkApplication* Application::GetDefault() {
     return g_app;
 }
 
+GtkAccelGroup* Application::GetAccelGroup() {
+    return m_accel_group;
+}
+
 Application::Application(int argc, char* argv[], const bool dark_theme)
     : m_app(nullptr)
+    , m_accel_group(nullptr)
     , m_argc(argc)
     , m_argv(argv)
 {
@@ -50,7 +55,14 @@ Application::Application(int argc, char* argv[], const bool dark_theme)
         if (error) g_error_free(error);
     }
 
-    g_object_set(gtk_settings_get_default(), "gtk-application-prefer-dark-theme", dark_theme, nullptr);
+    m_accel_group = gtk_accel_group_new();
+
+    g_object_set(
+        gtk_settings_get_default(), 
+        "gtk-application-prefer-dark-theme", 
+        dark_theme, 
+        nullptr);
+
     g_app = m_app;
 }
 

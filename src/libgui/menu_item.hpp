@@ -20,38 +20,24 @@
 #define LIBGUI_MENU_ITEM_HPP_
 
 #include "widget.hpp"
+#include "accelerator_target.hpp"
 
 namespace UI {
 
 class HBox;
 class Image;
 
-class MenuItem : Widget {
+class MenuItem : public Widget, public AcceleratorTarget {
 public:
-    struct AccelKey {
-        u32 mods;
-        u32 key;
-
-        AccelKey();
-        AccelKey(u32 key);
-        AccelKey(u32 mods, u32 key);
-
-        // Implicit conversion operator to check if properly initialized
-        operator bool() const;
-    };
-
-public:
-    MenuItem() = delete;
-    MenuItem(const MenuItem::Type& type);
+    MenuItem();
+    MenuItem(std::string_view text, std::string_view keybind);
 
     void SetIconFromName(std::string_view icon_name);
     void SetIconFromPath(std::string_view file_path);
+    void SetText(std::string_view text);
     
 private:
     GtkMenuItem* m_item;
-
-    bool m_registered_accel;
-    bool m_checked; // Used for checked icon/status
 
     HBox m_box;
     Image m_image;

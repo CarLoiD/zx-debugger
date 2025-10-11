@@ -27,14 +27,10 @@ namespace UI {
 class Button : public Widget, public Clickable {
 public:
     Button();
-    Button(std::string_view label, const bool use_mnemonics = false);
+    Button(std::string_view text, const bool use_mnemonics = false);
     
-    void SetLabel(std::string_view label, const bool use_mnemonics = false);
-    std::string_view GetLabel() const;
-
-    GtkWidget* GetGtkWidget() const override {
-        return m_handle;
-    }
+    void SetText(std::string_view text, const bool use_mnemonics = false);
+    std::string_view GetText() const;
     
 private:
     GtkButton* m_btn;

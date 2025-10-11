@@ -29,6 +29,7 @@ class Window;
 class Application final {
 public:
     static GtkApplication* GetDefault();
+    static GtkAccelGroup* GetAccelGroup();
 
 public:
     Application() = delete;
@@ -39,6 +40,7 @@ public:
 
 private:
     GtkApplication* m_app;
+    GtkAccelGroup* m_accel_group; // Used for menu item accelerators in application scope
 
     // Saved program arguments
     int m_argc;
