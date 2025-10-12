@@ -194,7 +194,7 @@ void MainWindow::SetupHeaderBar() {
     UI::HeaderBar header;
     header.SetTitle("zx-debugger"); // Default title while no session is loaded
 
-    UI::Image app_icon("icon.png");
+    UI::Image app_icon("res/icon.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
 
     header.Add(app_icon);
