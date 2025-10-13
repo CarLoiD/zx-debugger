@@ -13,29 +13,26 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: button.hpp
+// File: path.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_BUTTON_HPP_
-#define LIBGUI_BUTTON_HPP_
+#include "path.hpp"
 
-#include <libgui/widget.hpp>
-#include <libgui/clickable.hpp>
+namespace Base::Path {
 
-namespace UI {
+std::string GetDirectoryName(std::string_view file_path) {
+    std::string str = std::string(file_path);
 
-class Button : public Widget, public Clickable {
-public:
-    Button();
-    Button(std::string_view text, const bool use_mnemonics = false);
-    
-    void SetText(std::string_view text, const bool use_mnemonics = false);
-    std::string_view GetText() const;
-    
-private:
-    GtkButton* m_btn;
-};
+    size_t at = str.find_last_of("/\\");
+    if (at == std::string::npos) {
+        return "."; // No directory
+    }
 
-} // namespace UI
+    if (at == 0) {
+        return str.substr(0, 1);
+    }
 
-#endif // LIBGUI_BUTTON_HPP_
+    return str.substr(0, at);
+}
+
+} // namespace Base::Path

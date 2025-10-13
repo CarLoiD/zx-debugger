@@ -17,6 +17,8 @@
 // ---------------------------------------------------------------------------
 
 #include "menu_bar.hpp"
+#include "application.hpp"
+#include "menu_item.hpp"
 #include "window.hpp"
 #include "base/assert.hpp"
 
@@ -77,7 +79,7 @@ void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& k
         gtk_widget_add_accelerator(
             item,
             "activate",
-            m_accel_group,
+            Application::GetAccelGroup(),
             keybind.key,
             static_cast<GdkModifierType>(keybind.mods),
             GTK_ACCEL_VISIBLE);

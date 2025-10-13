@@ -19,10 +19,10 @@
 #ifndef LIBGUI_STATUS_BAR_HPP_
 #define LIBGUI_STATUS_BAR_HPP_
 
-#include <vector>
+#include <libgui/widget.hpp>
+#include <libgui/color.hpp>
 
-#include "widget.hpp"
-#include "color.hpp"
+#include <vector>
 
 namespace UI {
 

@@ -19,7 +19,7 @@
 #ifndef CLIENT_MAIN_WINDOW_HPP_
 #define CLIENT_MAIN_WINDOW_HPP_
 
-#include "libgui/include.hpp"
+#include <libgui/libgui.hpp>
 
 class MainWindow : public UI::Window {
 private:

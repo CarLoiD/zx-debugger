@@ -19,7 +19,7 @@
 #ifndef BASE_ATTRIBUTES_HPP_
 #define BASE_ATTRIBUTES_HPP_
 
-#include "base/config.hpp"
+#include <base/config.hpp>
 
 // __has_attribute is defined by GCC 5+ and Clang to evaluate attribute support
 

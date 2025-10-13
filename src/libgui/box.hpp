@@ -19,7 +19,7 @@
 #ifndef LIBGUI_BOX_HPP_
 #define LIBGUI_BOX_HPP_
 
-#include "widget.hpp"
+#include <libgui/widget.hpp>
 
 namespace UI {
 

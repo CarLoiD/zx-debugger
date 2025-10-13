@@ -19,7 +19,7 @@
 #ifndef LIBGUI_COLOR_HPP_
 #define LIBGUI_COLOR_HPP_
 
-#include "base/types.hpp"
+#include <base/types.hpp>
 
 typedef struct _GdkRGBA GdkRGBA;
 

@@ -16,4 +16,37 @@
 # File: CMakeLists.txt
 # ---------------------------------------------------------------------------
 
-add_subdirectory(client)
+set(BASE_LIB base/assert.cc
+             base/path.cc)
+
+zx_cc_library(NAME libbase SRCS ${BASE_LIB})
+
+set(GUI_LIB libgui/application.cc
+            libgui/box.cc
+            libgui/button.cc
+            libgui/color.cc
+            libgui/header_bar.cc
+            libgui/image.cc
+            libgui/label.cc
+            libgui/menu_bar.cc
+            libgui/status_bar.cc
+            libgui/widget.cc
+            libgui/window.cc)
+
+zx_cc_library(
+    NAME libgui
+    SRCS ${GUI_LIB}
+    IDIRS ${GTK3_INCLUDE_DIRS} # src/
+    LDIRS ${GTK3_LIBRARY_DIRS}
+    LIBS ${GTK3_LIBRARIES} zx::base
+    COPTS ${GTK3_CFLAGS_OTHER})
+
+set(ZXDB_BIN app/main.cc
+             app/main_window.cc)
+
+# Set the application icon on windows, by linking a resource file
+if (WIN32)
+    list(APPEND ZXDB_BIN ../bin/res/icon/app.rc)
+endif()
+
+zx_cc_binary(NAME zxdb SRCS ${ZXDB_BIN} LIBS zx::gui) 

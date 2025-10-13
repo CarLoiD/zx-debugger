@@ -111,7 +111,6 @@ void MainWindow::SetupMenuBar() {
     constexpr auto kShiftAltKey  = kShiftKey | kAltKey;
 
     // Setup menu bar and it's actions
-    m_mb.RegisterAccelGroup(*this);
     m_mb.SetOnCommandCallback(this, &MainWindow::OnMenuCommand);
 
     m_mb.PushSubmenu("_Session");
@@ -194,7 +193,7 @@ void MainWindow::SetupHeaderBar() {
     UI::HeaderBar header;
     header.SetTitle("zx-debugger"); // Default title while no session is loaded
 
-    UI::Image app_icon("res/icon.png");
+    UI::Image app_icon("res/icon/app.png");
     app_icon.SetMargin(UI::MarginOpt::kStart, 8);
 
     header.Add(app_icon);

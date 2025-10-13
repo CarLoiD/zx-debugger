@@ -26,4 +26,12 @@
  #define ZX_CONFIG_TOOLCHAIN_GCC 1
 #endif
 
+#if defined(__MINGW32__) || defined(_WIN32)
+ #define ZX_CONFIG_PLATFORM_WIN32
+#elif defined(__unix__)
+ #define ZX_CONFIG_PLATFORM_UNIX_BASED
+#else
+ #error ZX_CONFIG_PLATFORM cannot be set, invalid platform
+#endif
+
 #endif // BASE_CONFIG_HPP_

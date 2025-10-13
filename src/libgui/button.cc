@@ -35,11 +35,11 @@ Button::Button(std::string_view text, const bool use_mnemonics)
 
 void Button::SetText(std::string_view text, const bool use_mnemonics) {
     gtk_button_set_use_underline(m_btn, use_mnemonics);
-    gtk_button_set_text(m_btn, label.data());
+    gtk_button_set_label(m_btn, text.data());
 }
 
 std::string_view Button::GetText() const {
-    return std::string_view(gtk_button_get_text(m_btn));
+    return std::string_view(gtk_button_get_label(m_btn));
 }
 
 } // namespace UI

@@ -16,7 +16,7 @@
 // File: assert.cc
 // ---------------------------------------------------------------------------
 
-#include "base/assert.hpp"
+#include "assert.hpp"
 
 #include <string>
 #include <sstream>

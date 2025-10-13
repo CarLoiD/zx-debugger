@@ -19,10 +19,11 @@
 #ifndef LIBGUI_MENU_BAR_HPP_
 #define LIBGUI_MENU_BAR_HPP_
 
+#include <libgui/widget.hpp>
+#include <libgui/accelerator_target.hpp> // TODO: remove this later
+
 #include <functional>
 #include <vector>
-
-#include "widget.hpp"
 
 namespace UI {
 
@@ -53,7 +54,7 @@ public:
     // Each submenu will have it's ID, with only a single callback bound via
     // SetOnCommandCallback(), each submenu has it's activate signal set so
     // that it calls the command callback with the item id, if valid.
-    void AppendItem(MenuItem& item, const s32 id = -1, const AccelKey& keybind = {});
+    void AppendItem(std::string_view text, const s32 id = -1, const AccelKey& keybind = {});
     void AppendCheckItem();
     void AppendSeparator();
 

@@ -19,10 +19,22 @@
 #ifndef LIBGUI_ACCELERATOR_TARGET_HPP_
 #define LIBGUI_ACCELERATOR_TARGET_HPP_
 
+#include <base/types.hpp>
 #include <gtk/gtk.h>
-#include "base/types.hpp"
 
 namespace UI {
+
+// Used for compatibility with old way of defining keybinds.
+// This will be removed later on in favor of using SetKeybind()
+// from AcceleratorTarget.
+struct AccelKey {
+    u32 mods;
+    u32 key;
+
+    AccelKey() : mods(0), key(0) {}
+    AccelKey(u32 mods, u32 key) { this->mods = mods; this->key = key; }
+    operator bool() const { return this->key != 0; }
+};
 
 class AcceleratorTarget {
 public:

@@ -19,13 +19,11 @@
 #ifndef LIBGUI_MENU_ITEM_HPP_
 #define LIBGUI_MENU_ITEM_HPP_
 
-#include "widget.hpp"
-#include "accelerator_target.hpp"
+#include <libgui/accelerator_target.hpp>
+#include <libgui/box.hpp>
+#include <libgui/image.hpp>
 
 namespace UI {
-
-class HBox;
-class Image;
 
 class MenuItem : public Widget, public AcceleratorTarget {
 public:

@@ -19,9 +19,17 @@
 #include "application.hpp"
 #include "window.hpp"
 #include "base/assert.hpp"
+#include "base/path.hpp"
+
+#if defined(ZX_CONFIG_PLATFORM_WIN32)
+ #include <windows.h>
+#elif defined(ZX_CONFIG_PLATFORM_UNIX_BASED)
+ #include <unistd.h>
+#endif 
 
 namespace {
     GtkApplication* g_app = nullptr;
+    GtkAccelGroup* g_accel_group = nullptr;
 }
 
 namespace UI {
@@ -33,7 +41,19 @@ GtkApplication* Application::GetDefault() {
 }
 
 GtkAccelGroup* Application::GetAccelGroup() {
-    return m_accel_group;
+    return g_accel_group;
+}
+
+void Application::SetCwdToAppPath() {
+    char buffer[256];
+
+#if defined(ZX_CONFIG_PLATFORM_WIN32)
+    GetModuleFileNameA(nullptr, buffer, sizeof(buffer));
+    auto dir = Base::Path::GetDirectoryName(buffer);
+    SetCurrentDirectoryA(dir.c_str());
+#elif defined(ZX_CONFIG_PLATFORM_UNIX_BASED)
+    // TODO: TBD
+#endif
 }
 
 Application::Application(int argc, char* argv[], const bool dark_theme)
@@ -64,6 +84,9 @@ Application::Application(int argc, char* argv[], const bool dark_theme)
         nullptr);
 
     g_app = m_app;
+    g_accel_group = m_accel_group;
+
+    SetCwdToAppPath();
 }
 
 Application::~Application() {

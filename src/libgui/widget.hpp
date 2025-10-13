@@ -19,8 +19,8 @@
 #ifndef LIBGUI_WIDGET_HPP_
 #define LIBGUI_WIDGET_HPP_
 
+#include <base/types.hpp>
 #include <gtk/gtk.h> 
-#include "base/types.hpp"
 
 namespace UI {
 

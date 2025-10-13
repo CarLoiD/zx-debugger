@@ -35,9 +35,9 @@ function(zx_cc_library)
     cmake_parse_arguments(ZX_CC_LIB
         ""                  # No options currently
         "NAME"
-        "HDRS;SRCS;COPTS;DEFINES;LINKOPTS;LIBS"
+        "HDRS;SRCS;COPTS;DEFINES;LINKOPTS;LIBS;IDIRS;LDIRS"
         ${ARGN})
-    
+
     if(NOT ZX_CC_LIB_NAME)
         message(FATAL_ERROR "zx_cc_library() requires NAME")
     endif()
@@ -50,15 +50,21 @@ function(zx_cc_library)
     add_library(${_NAME} "")
     target_sources(${_NAME} PRIVATE ${ZX_CC_LIB_SRCS} ${ZX_CC_LIB_HDRS})
 
-    target_link_libraries(${_NAME} 
-        PUBLIC  ${ZX_CC_LIB_LIBS}
-        PRIVATE ${ZX_CC_LIB_LINKOPTS})
+    string(REGEX REPLACE "^lib" "" LIB_NAME ${ZX_CC_LIB_NAME})
+    set_target_properties(${_NAME} PROPERTIES OUTPUT_NAME ${LIB_NAME})
 
-    target_compile_options(${_NAME} PRIVATE ${ZX_CC_LIB_COPTS})
+    # Shared options
+    target_include_directories(${_NAME} PUBLIC ${ZX_CC_LIB_IDIRS})
+    target_link_directories(${_NAME} PUBLIC ${ZX_CC_LIB_LDIRS})
+    target_link_libraries(${_NAME} PUBLIC ${ZX_CC_LIB_LIBS})
     target_compile_definitions(${_NAME} PUBLIC ${ZX_CC_LIB_DEFINES})
 
+    # Private options
+    target_link_options(${_NAME} PRIVATE ${ZX_CC_LIB_LINKOPTS})
+    target_compile_options(${_NAME} PRIVATE ${ZX_CC_LIB_COPTS})
+
     # Finally...
-    add_library(zx::${ZX_CC_LIB_NAME} ALIAS ${_NAME})
+    add_library(zx::${LIB_NAME} ALIAS ${_NAME})
 endfunction()
 
 function(zx_cc_binary)
@@ -76,10 +82,10 @@ function(zx_cc_binary)
         message(FATAL_ERROR "zx_cc_binary() requires SRCS")
     endif()
 
-    set(_NAME "zx-${ZX_CC_BIN_NAME}")
+    set(_NAME "${ZX_CC_BIN_NAME}")
     add_executable(${_NAME} ${ZX_CC_BIN_SRCS} ${ZX_CC_BIN_HDRS})
 
-    # Optional stuff
+    # Optional stuff (in binary context all options are private)
     target_include_directories(${_NAME} PRIVATE ${ZX_CC_BIN_IDIRS})
     target_compile_options(${_NAME} PRIVATE ${ZX_CC_BIN_COPTS})
     target_compile_definitions(${_NAME} PRIVATE ${ZX_CC_BIN_DEFINES})
@@ -96,6 +102,6 @@ function(zx_add_run TARGET_ALIAS)
         COMMAND echo "Running target (${TARGET_ALIAS})"
         COMMAND echo "CWD: ${CMAKE_CURRENT_LIST_DIR}"
         COMMAND $<TARGET_FILE:${TARGET_ALIAS}>
-        DEPENDS zx::dbgclient
+        DEPENDS ${TARGET_ALIAS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
 endfunction()

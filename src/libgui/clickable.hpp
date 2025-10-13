@@ -19,10 +19,9 @@
 #ifndef LIBGUI_CLICKABLE_HPP_
 #define LIBGUI_CLICKABLE_HPP_
 
-#include <type_traits>
+#include <base/assert.hpp>
 #include <gtk/gtk.h>
-
-#include "base/assert.hpp"
+#include <type_traits>
 
 namespace UI {
 

@@ -31,6 +31,12 @@ public:
     static GtkApplication* GetDefault();
     static GtkAccelGroup* GetAccelGroup();
 
+private:
+    // Depending from where the main executable is called, the application can have it's
+    // current working directory modified so that the app resources folders can't be reached.
+    // This function removes that behavior in a portable way for Windows and POSIX-based systems.
+    void SetCwdToAppPath();
+
 public:
     Application() = delete;
     Application(int argc, char* argv[], const bool dark_theme = true);

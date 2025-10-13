@@ -19,7 +19,7 @@
 #ifndef LIBGUI_HEADER_BAR_HPP_
 #define LIBGUI_HEADER_BAR_HPP_
 
-#include "widget.hpp"
+#include <libgui/widget.hpp>
 
 namespace UI {
 

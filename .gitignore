@@ -1,2 +1,10 @@
 # Ignore intermediate directory
 build/
+
+# Ignore compiled libraries 
+lib/
+
+# Ignore files inside binary folder, but don't ignore folders
+bin/*
+!bin/**/
+!bin/**/*

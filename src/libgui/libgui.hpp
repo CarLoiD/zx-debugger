@@ -16,21 +16,21 @@
 // File: include.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_INCLUDE_HPP_
-#define LIBGUI_INCLUDE_HPP_
+#ifndef LIBGUI_LIBGUI_HPP_
+#define LIBGUI_LIBGUI_HPP_
 
 // base
-#include "base/assert.hpp"
+#include <base/assert.hpp>
 
 // libgui
-#include "application.hpp"
-#include "box.hpp"
-#include "button.hpp"
-#include "header_bar.hpp"
-#include "image.hpp"
-#include "label.hpp"
-#include "menu_bar.hpp"
-#include "status_bar.hpp"
-#include "window.hpp"
+#include <libgui/application.hpp>
+#include <libgui/box.hpp>
+#include <libgui/button.hpp>
+#include <libgui/header_bar.hpp>
+#include <libgui/image.hpp>
+#include <libgui/label.hpp>
+#include <libgui/menu_bar.hpp>
+#include <libgui/status_bar.hpp>
+#include <libgui/window.hpp>
 
-#endif // LIBGUI_INCLUDE_HPP_
+#endif // LIBGUI_LIBGUI_HPP_

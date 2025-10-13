@@ -19,7 +19,7 @@
 #ifndef LIBGUI_LABEL_HPP_
 #define LIBGUI_LABEL_HPP_
 
-#include "widget.hpp"
+#include <libgui/widget.hpp>
 
 namespace UI {
 

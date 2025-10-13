@@ -19,7 +19,7 @@
 #ifndef LIBGUI_IMAGE_HPP_
 #define LIBGUI_IMAGE_HPP_
 
-#include "widget.hpp"
+#include <libgui/widget.hpp>
 
 namespace UI {
 

@@ -13,29 +13,19 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: button.hpp
+// File: path.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_BUTTON_HPP_
-#define LIBGUI_BUTTON_HPP_
+#ifndef BASE_PATH_HPP_
+#define BASE_PATH_HPP_
 
-#include <libgui/widget.hpp>
-#include <libgui/clickable.hpp>
+#include <base/types.hpp>
+#include <string>
 
-namespace UI {
+namespace Base::Path {
 
-class Button : public Widget, public Clickable {
-public:
-    Button();
-    Button(std::string_view text, const bool use_mnemonics = false);
-    
-    void SetText(std::string_view text, const bool use_mnemonics = false);
-    std::string_view GetText() const;
-    
-private:
-    GtkButton* m_btn;
-};
+std::string GetDirectoryName(std::string_view file_path);
 
-} // namespace UI
+} // namespace Base::Path
 
-#endif // LIBGUI_BUTTON_HPP_
+#endif // BASE_PATH_HPP_
