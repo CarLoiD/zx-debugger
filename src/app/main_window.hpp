@@ -20,6 +20,7 @@
 #define CLIENT_MAIN_WINDOW_HPP_
 
 #include <libgui/libgui.hpp>
+#include <vector>
 
 class MainWindow : public UI::Window {
 private:
