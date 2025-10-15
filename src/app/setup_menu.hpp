@@ -19,11 +19,7 @@
 #ifndef APP_SETUP_MENU_HPP_
 #define APP_SETUP_MENU_HPP_
 
-#include <base/types.hpp>
-
-namespace UI {
-    class MenuBar;
-} // namespace UI
+#include <libgui/menu_bar.hpp>
 
 // IDs used when handling menu item commands
 struct MenuId {
@@ -31,6 +27,8 @@ struct MenuId {
         // File
         kSessionNew = 0,
         kSessionOpen,
+        kSessionSave,
+        kSessionSaveAs,
         kSessionRecentExec1,
         kSessionRecentExec2,
         kSessionRecentExec3,

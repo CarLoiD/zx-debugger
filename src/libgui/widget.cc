@@ -49,6 +49,20 @@ void Widget::Add(Widget& child) {
     ASSERT(false, "Unsupported Widget::Add() operation");
 }
 
+void Widget::SetAlignH(const Align& alignment) {
+    ASSERT_PTR(m_handle);
+
+    const GtkAlign value = static_cast<GtkAlign>(alignment);
+    gtk_widget_set_halign(m_handle, value);
+}
+
+void Widget::SetAlignV(const Align& alignment) {
+    ASSERT_PTR(m_handle);
+
+    const GtkAlign value = static_cast<GtkAlign>(alignment);
+    gtk_widget_set_valign(m_handle, value);
+}
+
 void Widget::SetMarginX(const int offset) {
     ASSERT_PTR(m_handle);
 

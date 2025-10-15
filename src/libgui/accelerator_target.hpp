@@ -19,8 +19,7 @@
 #ifndef LIBGUI_ACCELERATOR_TARGET_HPP_
 #define LIBGUI_ACCELERATOR_TARGET_HPP_
 
-#include <base/types.hpp>
-#include <gtk/gtk.h>
+#include <libgui/label.hpp>
 
 namespace UI {
 
@@ -51,7 +50,10 @@ public:
     void SetKeybind(std::string_view keybind);
 
 protected:
-    GtkWidget* m_item;
+    GtkWidget* m_accel_item;
+    Label m_accel_label;
+
+private:
     bool m_active;
 };
 

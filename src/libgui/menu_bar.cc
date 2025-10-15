@@ -18,8 +18,6 @@
 
 #include "menu_bar.hpp"
 #include "application.hpp"
-#include "menu_item.hpp"
-#include "window.hpp"
 #include "base/assert.hpp"
 
 namespace UI {
@@ -59,7 +57,7 @@ void MenuBar::PopSubmenu() {
     gtk_widget_show_all(submenu.menu_item);
 }
 
-void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& keybind) {
+void MenuBar::AppendItem(MenuItem& item, const s32 id) {
     ASSERT(!(id >= 0 && !m_cb), "Trying to append valid id without cmd callback");
     ASSERT(!m_stack.empty(), "Trying to append item to inactive submenu stack");
 
@@ -73,20 +71,11 @@ void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& k
     udata->id = id;
     udata->callback = m_cb;
 
-    GtkWidget* item = gtk_menu_item_new_with_mnemonic(label.data());
-
-    if (keybind) {
-        gtk_widget_add_accelerator(
-            item,
-            "activate",
-            Application::GetAccelGroup(),
-            keybind.key,
-            static_cast<GdkModifierType>(keybind.mods),
-            GTK_ACCEL_VISIBLE);
-    }
+    item.SetIconFromName("document-new");
+    GtkWidget* handle = item.GetHandle();
 
     g_signal_connect_data(
-        item,
+        handle,
         "activate",
         G_CALLBACK(+[](GtkMenuItem*, gpointer user_data) {
             auto* data = static_cast<Data*>(user_data);
@@ -98,8 +87,8 @@ void MenuBar::AppendItem(std::string_view label, const s32 id, const AccelKey& k
         [](gpointer data, GClosure*) { delete static_cast<Data*>(data); },
         static_cast<GConnectFlags>(0));
 
-    gtk_menu_shell_append(GTK_MENU_SHELL(m_stack.back().menu), item);
-    gtk_widget_show(item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(m_stack.back().menu), handle);
+    gtk_widget_show(handle);
 }
 
 void MenuBar::AppendSeparator() {

@@ -28,6 +28,7 @@ namespace UI {
 class MenuItem : public Widget, public AcceleratorTarget {
 public:
     MenuItem();
+    MenuItem(std::string_view text);
     MenuItem(std::string_view text, std::string_view keybind);
 
     void SetIconFromName(std::string_view icon_name);
@@ -38,7 +39,8 @@ private:
     GtkMenuItem* m_item;
 
     HBox m_box;
-    Image m_image;
+    Image m_icon;
+    Label m_text;
 };
 
 } // namespace UI

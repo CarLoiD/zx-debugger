@@ -13,42 +13,22 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: label.cc
+// File: ascii.hpp
 // ---------------------------------------------------------------------------
 
-#include "label.hpp"
+#ifndef BASE_ASCII_HPP_
+#define BASE_ASCII_HPP_
 
-#include <cstdio>
+#include <base/types.hpp>
+#include <string>
 
-namespace UI {
+namespace Base::ASCII {
 
-Label::Label()
-    : Widget(gtk_label_new(nullptr))
-{
-    m_label = GTK_LABEL(m_handle);
-}
+[[nodiscard]] char CharToUpper(unsigned char c);
+[[nodiscard]] char CharToLower(unsigned char c);
+[[nodiscard]] std::string StrToLower(std::string_view source);
+[[nodiscard]] std::string StrToUpper(std::string_view source);
 
-Label::Label(std::string_view text)
-    : Label()
-{
-    SetText(text);
-}
+} // namespace Base::ASCII
 
-void Label::SetText(std::string_view text) {
-    gtk_label_set_text_with_mnemonic(m_label, text.data());
-}
-
-void Label::SetTextColor(const Color& color) {
-    char buffer[64];
-    snprintf(buffer, 64, "label { color: rgb(%d, %d, %d); }",
-             static_cast<int>(color.r),
-             static_cast<int>(color.g),
-             static_cast<int>(color.b));
-    LocalEvalCSS(buffer);
-}
-
-void Label::SetAlignX(f32 value) {
-    gtk_label_set_xalign(m_label, value);
-}
-
-} // namespace UI
+#endif // BASE_ASCII_HPP_

@@ -20,6 +20,7 @@
 #define LIBGUI_LABEL_HPP_
 
 #include <libgui/widget.hpp>
+#include <libgui/color.hpp>
 
 namespace UI {
 
@@ -29,6 +30,8 @@ public:
     Label(std::string_view text);
 
     void SetText(std::string_view text);
+    void SetTextColor(const Color& color);
+    void SetAlignX(f32 value);
 
 private:
     GtkLabel* m_label;

@@ -21,7 +21,8 @@ set(BASE_LIB base/assert.cc
 
 zx_cc_library(NAME libbase SRCS ${BASE_LIB})
 
-set(GUI_LIB libgui/application.cc
+set(GUI_LIB libgui/accelerator_target.cc
+            libgui/application.cc
             libgui/box.cc
             libgui/button.cc
             libgui/color.cc
@@ -29,6 +30,7 @@ set(GUI_LIB libgui/application.cc
             libgui/image.cc
             libgui/label.cc
             libgui/menu_bar.cc
+            libgui/menu_item.cc
             libgui/status_bar.cc
             libgui/widget.cc
             libgui/window.cc)
@@ -42,7 +44,8 @@ zx_cc_library(
     COPTS ${GTK3_CFLAGS_OTHER})
 
 set(ZXDB_BIN app/main.cc
-             app/main_window.cc)
+             app/main_window.cc
+             app/setup_menu.cc)
 
 # Set the application icon on windows, by linking a resource file
 if (WIN32)

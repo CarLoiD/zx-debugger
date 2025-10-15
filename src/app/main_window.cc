@@ -124,16 +124,9 @@ void MainWindow::SetupCustomStyle() {
 
         separator {
             background: #444;
-            padding-left: 0px;
-            padding-right: 0px;
+            margin-left: 30px;
         }
 
-        menuitem {
-            padding-left: 8px;
-            padding-right: 8px;
-            border-radius: 6px;
-        }
-        
         /* Set the backdrop so that it doesn't glitch when out of focus */
         menuitem:backdrop {
             background: #222222;

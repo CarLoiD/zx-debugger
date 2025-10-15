@@ -36,6 +36,7 @@ public:
     void SetOpt(const bool expand, const bool fill);
     void SetSpacing(s32 spacing);
     void Add(Widget& child) override;
+    void AddEnd(Widget& child);
 
 private:
     GtkBox* m_box;

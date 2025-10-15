@@ -26,6 +26,14 @@ namespace UI {
 
 class Widget {
 public:
+    enum class Align {
+        kFill       = GTK_ALIGN_FILL,
+        kStart      = GTK_ALIGN_START,
+        kEnd        = GTK_ALIGN_END,
+        kCenter     = GTK_ALIGN_CENTER,
+        kBaseLine   = GTK_ALIGN_BASELINE,
+    };
+
     struct MarginMask {
         enum Options : u16 {
             kStart      = (1 << 0),
@@ -43,6 +51,8 @@ public:
     Widget(GtkWidget* handle);
     virtual ~Widget();
 
+    void SetAlignH(const Align& alignment);
+    void SetAlignV(const Align& alignment);
     void SetMarginX(const int offset);
     void SetMarginY(const int offset);
     void SetMargin(const MarginMask::Options& mask, const int offset);

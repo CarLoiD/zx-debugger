@@ -42,4 +42,9 @@ void Box::Add(Widget& child) {
     SetOpt(false, false);
 }
 
+void Box::AddEnd(Widget& child) {
+    gtk_box_pack_end(m_box, child.GetHandle(), m_expand, m_fill, 0);
+    SetOpt(false, false);
+}
+
 } // namespace UI
