@@ -122,6 +122,10 @@ void MainWindow::SetupCustomStyle() {
             background: #222;
         }
 
+        menuitem:hover {
+            background: #15539E;
+        }
+
         separator {
             background: #444;
             margin-left: 30px;
