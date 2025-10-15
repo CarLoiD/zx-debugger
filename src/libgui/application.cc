@@ -52,7 +52,12 @@ void Application::SetCwdToAppPath() {
     auto dir = Base::Path::GetDirectoryName(buffer);
     SetCurrentDirectoryA(dir.c_str());
 #elif defined(ZX_CONFIG_PLATFORM_UNIX_BASED)
-    // TODO: TBD
+    size_t len = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
+    if (len != -1) {
+        buffer[len] = '\0';
+        auto dir = Base::Path::GetDirectoryName(buffer);
+        chdir(dir.c_str());
+    }
 #endif
 }
 

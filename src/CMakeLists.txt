@@ -17,6 +17,7 @@
 # ---------------------------------------------------------------------------
 
 set(BASE_LIB base/assert.cc
+             base/ascii.cc
              base/path.cc)
 
 zx_cc_library(NAME libbase SRCS ${BASE_LIB})

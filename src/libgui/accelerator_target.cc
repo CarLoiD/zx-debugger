@@ -26,14 +26,15 @@
 
 namespace {
 
-constexpr auto s_modifiers[] = {
+constexpr std::string_view s_modifiers[] = {
     "CTRL", 
     "SHIFT", 
     "ALT",
 };
 
 [[nodiscard]] bool ProcessKeybind(std::string_view keybind, u32& mods, u32& key) {
-    std::string upper = Base::ASCII::ToUpper(keybind);
+    //std::string upper = Base::ASCII::ToUpper(keybind);
+    return false;
 }
 
 } // namespace
@@ -49,18 +50,20 @@ void AcceleratorTarget::SetKeybind(std::string_view keybind) {
     u32 mods = 0;
     u32 key = 0;
     
-    if (ProcessKeybind(upper, mods, key)) {
+    if (ProcessKeybind(keybind, mods, key)) {
         gtk_widget_add_accelerator(
             m_accel_item,
             "activate",
             Application::GetAccelGroup(),
             key,
-            static_cast<GdkModifierType>(mods), 0);
+            static_cast<GdkModifierType>(mods),
+            static_cast<GtkAccelFlags>(0));
         
         // If can't process keybind, no harm is done (fatally)...
         // However, the accelerator preview is also not set.
-        m_accel_label.SetText(keybind);    
     }
+
+    m_accel_label.SetText(keybind);    
 }
 
 } // namespace UI
