@@ -105,26 +105,33 @@ void MainWindow::SetupCustomStyle() {
     UI::Widget::GlobalEvalCSS(R"(
         menubar, menu, menu popup, menuitem {
             box-shadow: none;
-        }
-
-        window.menu,
-        window.menu.background,
-        decoration {
-            background: transparent;
-            box-shadow: none;
-            border: none;
-        }
-
-        menu {
-            padding: 4px;
-            border-radius: 6px;
-            border: 1px solid #444; 
-            background: #222;
+            border-radius: 0px;
         }
 
         separator {
             background: #444;
             margin-left: 30px;
+        }
+
+        window.menu,
+        window.menu.background,
+        decoration {
+            /* Border must be present on Linux, if not, big shit happens...
+             * GTK on Linux uses decoration as the way of presenting the menu
+             * at all, as it seems... on Windows it works fine with without
+             * this border (border: none;), hacky fix...
+             */
+            border: 1px solid rgba(0, 0, 0, 0.01);
+            box-shadow: none;
+            background: transparent;
+            padding: 0;
+        }
+
+        menu {
+            background: #222;
+            border: 1px solid #444; 
+            padding: 4px;
+            border-radius: 6px;
         }
 
         /* Set the backdrop so that it doesn't glitch when out of focus */

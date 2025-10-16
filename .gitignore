@@ -5,4 +5,5 @@ build/
 lib/
 
 # Ignore files inside binary folder, but don't ignore folders
+bin/zxdb
 bin/*.*
