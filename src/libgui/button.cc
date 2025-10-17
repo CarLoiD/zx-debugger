@@ -46,6 +46,7 @@ void Button::SetIcon(std::string_view icon_name) {
     SetText("");
 
     m_icon.SetFromIconName(icon_name, IconSize::kMenu);
+    m_icon.SetMargin(MarginOpt::kStart, 2);
     gtk_button_set_image(m_btn, m_icon.GetHandle());
     gtk_button_set_relief(m_btn, GTK_RELIEF_NONE);
 

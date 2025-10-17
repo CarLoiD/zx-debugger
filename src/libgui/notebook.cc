@@ -37,7 +37,7 @@ void Notebook::AddTab(Widget& child, std::string_view title) {
     Label text(title);
 
     Button close;
-    close.SetIcon("document-new");
+    close.SetIcon("window-close-symbolic");
     gtk_widget_set_tooltip_text(close.GetHandle(), "Close Tab");
 
     HBox box;
