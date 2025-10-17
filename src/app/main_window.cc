@@ -148,10 +148,24 @@ void MainWindow::SetupCustomStyle() {
 }
 
 void MainWindow::SetupArea() {
-    UI::Label placeholder("MAIN AREA (PLACEHOLDER)");
-    placeholder.SetExpand(true, true);
+    UI::Label empty("No views are active.");
+    empty.SetTextColor(UI::Color(0xAA, 0xAA, 0xAA));
+    
+    //m_area_stack.AddNamed(empty, "empty");
+    m_area_stack.AddNamed(m_area, "views");
+    
+    UI::Label workspace("WORKSPACE VIEW");
+    workspace.SetExpand(true, true);
+    m_area.AddTab(workspace, "Workspace");
 
-    m_vbox.Add(placeholder);
+    //m_area_stack.SetVisible("views");
+    
+    /* TODO: Implement such functions for handling view count state on m_area
+    m_area.SetOnEmptyCallback([m_area_stack](){ m_area_stack.SetVisible("empty"); });
+    m_area.SetOnCountCallback([m_area_stack](){ m_area_stack.SetVisible("views"); });
+    */
+
+    m_vbox.Add(m_area_stack);
 }
 
 void MainWindow::SetupStatusBar() {

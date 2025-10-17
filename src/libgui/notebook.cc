@@ -13,26 +13,52 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: include.hpp
+// File: notebook.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_LIBGUI_HPP_
-#define LIBGUI_LIBGUI_HPP_
+#include "notebook.hpp"
 
-// base
-#include <base/assert.hpp>
-
-// libgui
-#include <libgui/application.hpp>
 #include <libgui/box.hpp>
 #include <libgui/button.hpp>
-#include <libgui/header_bar.hpp>
-#include <libgui/image.hpp>
 #include <libgui/label.hpp>
-#include <libgui/menu_bar.hpp>
-#include <libgui/notebook.hpp>
-#include <libgui/stack.hpp>
-#include <libgui/status_bar.hpp>
-#include <libgui/window.hpp>
 
-#endif // LIBGUI_LIBGUI_HPP_
+namespace UI {
+
+Notebook::Notebook()
+    : Widget(gtk_notebook_new())
+{
+    m_notebook = GTK_NOTEBOOK(m_handle);
+
+    //SetExpand(true, true); // Making sure notebook expands itself
+    ShowTabs();
+}
+
+void Notebook::AddTab(Widget& child, std::string_view title) {
+    Label text(title);
+
+    Button close;
+    close.SetIcon("document-new");
+    gtk_widget_set_tooltip_text(close.GetHandle(), "Close Tab");
+
+    HBox box;
+    box.SetOpt(true, true);
+    box.Add(text);
+    box.Add(close);
+
+    box.ShowAll();
+
+    gtk_notebook_append_page(
+        m_notebook, 
+        child.GetHandle(),
+        box.GetHandle());
+}
+
+void Notebook::HideTabs() {
+    gtk_notebook_set_show_tabs(m_notebook, false);
+}
+
+void Notebook::ShowTabs() {
+    gtk_notebook_set_show_tabs(m_notebook, true);
+}
+
+} // namespace UI

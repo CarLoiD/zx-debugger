@@ -13,48 +13,32 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: box.hpp
+// File: stack.cc
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_BOX_HPP_
-#define LIBGUI_BOX_HPP_
-
-#include <libgui/widget.hpp>
+#include "stack.hpp"
 
 namespace UI {
 
-enum class BoxOrientation {
-    kHorizontal,
-    kVertical,
-};
+Stack::Stack()
+    : Widget(gtk_stack_new())
+{
+    m_stack = GTK_STACK(m_handle);
+    SetExpand(true, true);
+}
 
-class Box : public Widget {
-public:
-    Box() = delete;
-    Box(const BoxOrientation& orientation);
+void Stack::AddNamed(Widget& child, std::string_view name) {
+    gtk_stack_add_named(
+        m_stack, 
+        child.GetHandle(), 
+        name.data());
+}
 
-    void SetOpt(const bool expand, const bool fill);
-    void SetSpacing(s32 spacing);
-    void Add(Widget& child) override;
-    void AddEnd(Widget& child);
-
-private:
-    GtkBox* m_box;
-
-    bool m_expand;
-    bool m_fill;
-};
-
-class HBox final : public Box {
-public:
-    HBox() : Box(BoxOrientation::kHorizontal) {}
-};
-
-class VBox final : public Box {
-public:
-    VBox() : Box(BoxOrientation::kVertical) {}
-};
+void Stack::SetVisible(std::string_view name) {
+    gtk_stack_set_visible_child_full(
+        m_stack,
+        name.data(),
+        GTK_STACK_TRANSITION_TYPE_CROSSFADE);
+}
 
 } // namespace UI
-
-#endif // LIBGUI_BOX_HPP_

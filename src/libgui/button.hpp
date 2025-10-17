@@ -19,7 +19,7 @@
 #ifndef LIBGUI_BUTTON_HPP_
 #define LIBGUI_BUTTON_HPP_
 
-#include <libgui/widget.hpp>
+#include <libgui/image.hpp>
 #include <libgui/clickable.hpp>
 
 namespace UI {
@@ -31,9 +31,12 @@ public:
     
     void SetText(std::string_view text, const bool use_mnemonics = false);
     std::string_view GetText() const;
+
+    void SetIcon(std::string_view icon_name);
     
 private:
     GtkButton* m_btn;
+    Image m_icon;
 };
 
 } // namespace UI

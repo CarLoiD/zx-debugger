@@ -41,6 +41,10 @@ private:
     UI::MenuBar m_mb;
     UI::VBox m_vbox;
     UI::StatusBar m_status;
+
+    // Main area widgets & views
+    UI::Stack m_area_stack;
+    UI::Notebook m_area;
 };
 
 #endif // CLIENT_MAIN_WINDOW_HPP_

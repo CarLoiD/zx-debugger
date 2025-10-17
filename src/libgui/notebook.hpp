@@ -13,48 +13,30 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 // ---------------------------------------------------------------------------
-// File: box.hpp
+// File: notebook.hpp
 // ---------------------------------------------------------------------------
 
-#ifndef LIBGUI_BOX_HPP_
-#define LIBGUI_BOX_HPP_
+#ifndef LIBGUI_NOTEBOOK_HPP_
+#define LIBGUI_NOTEBOOK_HPP_
 
 #include <libgui/widget.hpp>
 
 namespace UI {
 
-enum class BoxOrientation {
-    kHorizontal,
-    kVertical,
-};
-
-class Box : public Widget {
+class Notebook final : public Widget {
 public:
-    Box() = delete;
-    Box(const BoxOrientation& orientation);
+    Notebook();
 
-    void SetOpt(const bool expand, const bool fill);
-    void SetSpacing(s32 spacing);
-    void Add(Widget& child) override;
-    void AddEnd(Widget& child);
+    void AddTab(Widget& child, std::string_view title);
+    
+    void HideTabs();
+    void ShowTabs();
+
 
 private:
-    GtkBox* m_box;
-
-    bool m_expand;
-    bool m_fill;
-};
-
-class HBox final : public Box {
-public:
-    HBox() : Box(BoxOrientation::kHorizontal) {}
-};
-
-class VBox final : public Box {
-public:
-    VBox() : Box(BoxOrientation::kVertical) {}
+    GtkNotebook* m_notebook;    
 };
 
 } // namespace UI
 
-#endif // LIBGUI_BOX_HPP_
+#endif // LIBGUI_NOTEBOOK_HPP_

@@ -42,4 +42,17 @@ std::string_view Button::GetText() const {
     return std::string_view(gtk_button_get_label(m_btn));
 }
 
+void Button::SetIcon(std::string_view icon_name) {
+    SetText("");
+
+    m_icon.SetFromIconName(icon_name, IconSize::kMenu);
+    gtk_button_set_image(m_btn, m_icon.GetHandle());
+    gtk_button_set_relief(m_btn, GTK_RELIEF_NONE);
+
+    gtk_widget_set_can_focus(m_handle, false);
+    gtk_widget_set_focus_on_click(m_handle, false);
+
+    gtk_widget_show(m_icon.GetHandle());
+}
+
 } // namespace UI

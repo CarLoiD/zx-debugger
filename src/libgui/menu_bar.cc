@@ -71,7 +71,6 @@ void MenuBar::AppendItem(MenuItem& item, const s32 id) {
     udata->id = id;
     udata->callback = m_cb;
 
-    item.SetIconFromName("document-new");
     GtkWidget* handle = item.GetHandle();
 
     g_signal_connect_data(
